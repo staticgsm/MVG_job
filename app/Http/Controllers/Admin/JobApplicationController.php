@@ -27,6 +27,8 @@ class JobApplicationController extends Controller
             'remarks' => $request->remarks,
         ]);
 
+        $application->user->notify(new \App\Notifications\ApplicationStatusChanged($application));
+
         return redirect()->back()->with('success', 'Application updated successfully.');
     }
 }

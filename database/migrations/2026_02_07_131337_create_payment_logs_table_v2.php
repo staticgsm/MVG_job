@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('payment_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('txnid')->nullable();
-            $table->string('mihpayid')->nullable();
-            $table->string('status')->nullable();
-            $table->text('error_message')->nullable();
-            $table->json('raw_response')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('payment_logs')) {
+            Schema::create('payment_logs', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('payment_id')->nullable()->constrained()->onDelete('set null');
+                $table->string('txnid')->nullable();
+                $table->string('mihpayid')->nullable();
+                $table->string('status')->nullable();
+                $table->text('error_message')->nullable();
+                $table->json('raw_response')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

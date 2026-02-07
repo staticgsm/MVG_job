@@ -111,13 +111,16 @@ class PaymentController extends Controller
             
             $plan = $payment->subscriptionPlan;
             
-            UserSubscription::create([
+            $userSubscription = UserSubscription::create([
                 'user_id' => $payment->user_id,
                 'subscription_plan_id' => $plan->id,
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays($plan->duration_days),
                 'status' => 'active',
             ]);
+
+            // Notify User
+            $payment->user->notify(new \App\Notifications\SubscriptionActivated($userSubscription));
 
             // Update User Profile flag
             $payment->user->candidateProfile()->update(['has_active_subscription' => true]);

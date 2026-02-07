@@ -72,4 +72,16 @@ class RegisterController extends Controller
             'role_id' => $role ? $role->id : null,
         ]);
     }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(\Illuminate\Http\Request $request, $user)
+    {
+        $user->notify(new \App\Notifications\WelcomeEmail());
+    }
 }

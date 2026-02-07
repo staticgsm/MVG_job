@@ -108,6 +108,7 @@
                                     <a class="nav-link {{ request()->routeIs('super_admin.dashboard') ? 'active' : '' }}" href="{{ route('super_admin.dashboard') }}">Dashboard</a>
                                     <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">User Management</a>
                                     <a class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">Roles & Permissions</a>
+                                    <a class="nav-link {{ request()->routeIs('super_admin.settings.*') ? 'active' : '' }}" href="{{ route('super_admin.settings.index') }}">System Settings</a>
                                 </li>
                             @endif
 

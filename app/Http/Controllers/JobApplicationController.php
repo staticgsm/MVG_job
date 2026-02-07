@@ -33,12 +33,14 @@ class JobApplicationController extends Controller
         // }
 
         // Create Application
-        JobApplication::create([
+        $application = JobApplication::create([
             'job_id' => $job->id,
             'user_id' => $user->id,
             'status' => 'Applied',
             'applied_at' => now(),
         ]);
+
+        $user->notify(new \App\Notifications\JobApplicationSubmitted($application));
 
         return redirect()->back()->with('success', 'Application submitted successfully!');
     }

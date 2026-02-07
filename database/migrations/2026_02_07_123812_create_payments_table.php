@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('subscription_plan_id')->constrained()->onDelete('cascade');
-            $table->string('txnid')->unique();
-            $table->decimal('amount', 10, 2);
-            $table->string('currency')->default('INR');
-            $table->enum('status', ['initiated', 'pending', 'success', 'failed'])->default('initiated');
-            $table->string('gateway')->default('payu');
-            $table->string('bank_ref_num')->nullable();
-            $table->string('mihpayid')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('payments')) {
+            Schema::create('payments', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+                $table->foreignId('subscription_plan_id')->constrained()->onDelete('cascade');
+                $table->string('txnid')->unique();
+                $table->decimal('amount', 10, 2);
+                $table->string('currency')->default('INR');
+                $table->enum('status', ['initiated', 'pending', 'success', 'failed'])->default('initiated');
+                $table->string('gateway')->default('payu');
+                $table->string('bank_ref_num')->nullable();
+                $table->string('mihpayid')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

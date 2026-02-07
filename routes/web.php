@@ -26,6 +26,11 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(fu
 
     // Permission Management
     Route::resource('permissions', App\Http\Controllers\PermissionController::class);
+
+    // System Settings
+    Route::get('/settings', [App\Http\Controllers\SuperAdmin\SettingsController::class, 'index'])->name('super_admin.settings.index');
+    Route::post('/settings', [App\Http\Controllers\SuperAdmin\SettingsController::class, 'store'])->name('super_admin.settings.store');
+    Route::post('/settings/test-email', [App\Http\Controllers\SuperAdmin\SettingsController::class, 'sendTestEmail'])->name('super_admin.settings.test-email');
 });
 
 // Job Management (Admin)
