@@ -96,42 +96,51 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->is('home') ? 'active' : '' }}" href="{{ route('home') }}">
-                                    Dashboard
+                                    Dashboard Home
                                 </a>
                             </li>
                             
                             @if(auth()->user()->hasRole('super_admin'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('super_admin.dashboard') }}">Super Admin Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('users.index') }}">User Management</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('roles.index') }}">Roles & Permissions</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.jobs.index') }}">Job Management</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('permissions.index') }}">Permissions List</a>
+                                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                      <span>Super Admin</span>
+                                    </h6>
+                                    <a class="nav-link {{ request()->routeIs('super_admin.dashboard') ? 'active' : '' }}" href="{{ route('super_admin.dashboard') }}">Dashboard</a>
+                                    <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">User Management</a>
+                                    <a class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">Roles & Permissions</a>
                                 </li>
                             @endif
 
-                            @if(auth()->user()->hasRole('admin'))
+                            @if(auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Admin Settings</a>
+                                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                      <span>Administration</span>
+                                    </h6>
+                                    @if(auth()->user()->hasRole('admin'))
+                                        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+                                    @endif
+                                    <a class="nav-link {{ request()->routeIs('admin.candidates.*') ? 'active' : '' }}" href="{{ route('admin.candidates.index') }}">Candidates</a>
+                                    <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}" href="{{ route('admin.subscription-plans.index') }}">Subscription Plans</a>
+                                    <a class="nav-link {{ request()->routeIs('admin.jobs.*') ? 'active' : '' }}" href="{{ route('admin.jobs.index') }}">Jobs</a>
                                 </li>
                             @endif
 
                             @if(auth()->user()->hasRole('hr'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Candidate Applications</a>
+                                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                      <span>HR Management</span>
+                                    </h6>
+                                    <a class="nav-link {{ request()->routeIs('hr.dashboard') ? 'active' : '' }}" href="{{ route('hr.dashboard') }}">Dashboard</a>
+                                    <a class="nav-link" href="#">Applications</a>
                                 </li>
                             @endif
 
                              @if(auth()->user()->hasRole('accountant'))
                                 <li class="nav-item">
+                                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                      <span>Finance</span>
+                                    </h6>
+                                    <a class="nav-link {{ request()->routeIs('accountant.dashboard') ? 'active' : '' }}" href="{{ route('accountant.dashboard') }}">Dashboard</a>
                                     <a class="nav-link" href="#">Invoices</a>
                                 </li>
                             @endif                           

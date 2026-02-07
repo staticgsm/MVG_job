@@ -93,4 +93,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(JobApplication::class);
     }
+
+    public function subscription()
+    {
+        return $this->hasOne(UserSubscription::class)->where('status', 'active')->latestOfMany();
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

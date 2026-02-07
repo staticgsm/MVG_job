@@ -58,15 +58,44 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    @if(auth()->user()->hasRole('candidate'))
-                                        <a class="dropdown-item" href="{{ route('candidate.profile.index') }}">
-                                            {{ __('My Profile') }}
-                                        </a>
+                                    @if(Auth::user()->hasRole('candidate'))
+                                    <a class="dropdown-item" href="{{ route('candidate.subscriptions.index') }}">
+                                        {{ __('Subscription Plans') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('candidate.profile.index') }}">
+                                        {{ __('My Profile') }}
+                                    </a>
                                         <a class="dropdown-item" href="{{ route('candidate.applications.index') }}">
                                             {{ __('My Applications') }}
                                         </a>
                                         <div class="dropdown-divider"></div>
                                     @endif
+
+                                    @if(Auth::user()->hasRole('super_admin'))
+                                        <a class="dropdown-item" href="{{ route('super_admin.dashboard') }}">
+                                            {{ __('Super Admin Dashboard') }}
+                                        </a>
+                                    @endif
+
+                                    @if(Auth::user()->hasRole('admin'))
+                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                            {{ __('Admin Dashboard') }}
+                                        </a>
+                                    @endif
+
+                                    @if(Auth::user()->hasRole('hr'))
+                                        <a class="dropdown-item" href="{{ route('hr.dashboard') }}">
+                                            {{ __('HR Dashboard') }}
+                                        </a>
+                                    @endif
+
+                                    @if(Auth::user()->hasRole('accountant'))
+                                        <a class="dropdown-item" href="{{ route('accountant.dashboard') }}">
+                                            {{ __('Accountant Dashboard') }}
+                                        </a>
+                                    @endif
+
+                                    <div class="dropdown-divider"></div>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

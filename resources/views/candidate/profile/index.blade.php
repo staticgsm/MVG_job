@@ -3,7 +3,31 @@
 @section('content')
 <div class="container py-4">
     <div class="row mb-4">
-        <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Account Status</h5>
+                </div>
+                <div class="card-body">
+                    @php
+                        $subscription = Auth::user()->subscription;
+                    @endphp
+                    @if(Auth::user()->candidateProfile && Auth::user()->candidateProfile->has_active_subscription && $subscription)
+                        <div class="alert alert-success mb-2">
+                             <i class="bi bi-check-circle-fill"></i> Active
+                        </div>
+                        <p class="mb-1"><strong>Plan:</strong> {{ $subscription->subscriptionPlan->name }}</p>
+                        <p class="mb-0 small text-muted">Expires: {{ $subscription->end_date->format('d M, Y') }}</p>
+                    @else
+                        <div class="alert alert-warning mb-2">
+                             In-Active
+                        </div>
+                        <a href="{{ route('candidate.subscriptions.index') }}" class="btn btn-sm btn-primary w-100">Subscribe Now</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
             <h2>My Profile</h2>
             <div class="progress mt-2" style="height: 25px;">
                 <div class="progress-bar bg-success" role="progressbar" style="width: {{ $profile->profile_completion_percentage ?? 0 }}%;" aria-valuenow="{{ $profile->profile_completion_percentage ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
@@ -57,9 +81,12 @@
                     @include('candidate.profile.partials.skills')
                 </div>
                 <div class="tab-pane fade" id="resume" role="tabpanel" aria-labelledby="resume-tab">
+                <div class="tab-pane fade" id="resume" role="tabpanel" aria-labelledby="resume-tab">
                     @include('candidate.profile.partials.resume')
                 </div>
             </div>
+        </div>
+    </div>
         </div>
     </div>
 </div>
