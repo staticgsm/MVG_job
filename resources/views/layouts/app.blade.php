@@ -58,6 +58,16 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @if(auth()->user()->hasRole('candidate'))
+                                        <a class="dropdown-item" href="{{ route('candidate.profile.index') }}">
+                                            {{ __('My Profile') }}
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('candidate.applications.index') }}">
+                                            {{ __('My Applications') }}
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                    @endif
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

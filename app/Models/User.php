@@ -88,4 +88,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(CandidateSkill::class);
     }
+
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
 }

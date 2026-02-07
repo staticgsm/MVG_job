@@ -31,11 +31,14 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(fu
 // Job Management (Admin)
 Route::middleware(['auth', 'permission:job.view'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('jobs', App\Http\Controllers\JobPostController::class);
+    Route::get('jobs/{job}/applications', [App\Http\Controllers\Admin\JobApplicationController::class, 'index'])->name('jobs.applications.index');
+    Route::put('applications/{application}', [App\Http\Controllers\Admin\JobApplicationController::class, 'update'])->name('jobs.applications.update');
 });
 
 // Public Job Routes
 Route::get('/jobs', [App\Http\Controllers\PublicJobController::class, 'index'])->name('public.jobs.index');
 Route::get('/jobs/{job}', [App\Http\Controllers\PublicJobController::class, 'show'])->name('public.jobs.show');
+Route::post('/jobs/{job}/apply', [App\Http\Controllers\JobApplicationController::class, 'store'])->name('jobs.apply')->middleware(['auth', 'role:candidate']);
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
@@ -51,7 +54,16 @@ Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candid
     Route::post('/profile/experience', [App\Http\Controllers\CandidateProfileController::class, 'updateExperience'])->name('profile.updateExperience');
     Route::post('/profile/skills', [App\Http\Controllers\CandidateProfileController::class, 'updateSkills'])->name('profile.updateSkills');
     Route::post('/profile/resume', [App\Http\Controllers\CandidateProfileController::class, 'uploadResume'])->name('profile.uploadResume');
+    
+    // Applications
+    Route::get('/applications', [App\Http\Controllers\JobApplicationController::class, 'candidateIndex'])->name('applications.index');
+    Route::delete('/applications/{application}', [App\Http\Controllers\JobApplicationController::class, 'destroy'])->name('applications.destroy');
 });
+
+// Redirect /profile to /candidate/profile
+Route::get('/profile', function() {
+    return redirect()->route('candidate.profile.index');
+})->middleware(['auth', 'role:candidate']);
 
 Route::middleware(['auth', 'role:hr'])->prefix('hr')->group(function () {
     Route::get('/dashboard', function () {

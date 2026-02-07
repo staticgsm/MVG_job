@@ -34,8 +34,17 @@
                     <div class="d-grid gap-2">
                         @auth
                             @if(auth()->user()->hasRole('candidate'))
-                                @if((auth()->user()->candidateProfile->profile_completion_percentage ?? 0) >= 100)
-                                    <button type="button" class="btn btn-success btn-lg">Apply Now</button>
+                                @php
+                                    $hasApplied = $job->applications()->where('user_id', auth()->id())->exists();
+                                @endphp
+
+                                @if($hasApplied)
+                                    <button type="button" class="btn btn-info btn-lg" disabled>Already Applied</button>
+                                @elseif((auth()->user()->candidateProfile->profile_completion_percentage ?? 0) >= 100)
+                                    <form action="{{ route('jobs.apply', $job) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-lg w-100">Apply Now</button>
+                                    </form>
                                 @else
                                     <button type="button" class="btn btn-secondary btn-lg" disabled>Complete Profile to Apply ({{ auth()->user()->candidateProfile->profile_completion_percentage ?? 0 }}%)</button>
                                     <a href="{{ route('candidate.profile.index') }}" class="btn btn-link">Go to Profile</a>

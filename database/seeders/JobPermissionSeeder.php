@@ -22,6 +22,8 @@ class JobPermissionSeeder extends Seeder
             ['name' => 'View Profile', 'slug' => 'profile.view', 'description' => 'Can view candidate profile'],
             ['name' => 'Edit Profile', 'slug' => 'profile.edit', 'description' => 'Can edit candidate profile'],
             ['name' => 'Apply Job', 'slug' => 'job.apply', 'description' => 'Can apply for jobs'],
+            ['name' => 'View Applications', 'slug' => 'application.view', 'description' => 'Can view job applications'],
+            ['name' => 'Manage Applications', 'slug' => 'application.manage', 'description' => 'Can update application status'],
         ];
 
         foreach ($permissions as $permission) {
@@ -35,8 +37,9 @@ class JobPermissionSeeder extends Seeder
         // Check if candidate role exists, if not create it (optional, but good practice if not guaranteed)
         $candidate = Role::firstOrCreate(['slug' => 'candidate'], ['name' => 'Candidate']);
 
-        $allPermissions = Permission::whereIn('slug', ['job.create', 'job.edit', 'job.view'])->get();
+        $allPermissions = Permission::whereIn('slug', ['job.create', 'job.edit', 'job.view', 'application.view', 'application.manage'])->get();
         $viewPermission = Permission::where('slug', 'job.view')->get();
+        $hrPermissions = Permission::whereIn('slug', ['job.view', 'application.view', 'application.manage'])->get();
         $candidatePermissions = Permission::whereIn('slug', ['profile.view', 'profile.edit', 'job.apply'])->get();
 
         if ($superAdmin) {
@@ -48,7 +51,7 @@ class JobPermissionSeeder extends Seeder
         }
 
         if ($hr) {
-            $hr->permissions()->syncWithoutDetaching($viewPermission);
+            $hr->permissions()->syncWithoutDetaching($hrPermissions);
         }
 
         if ($candidate) {

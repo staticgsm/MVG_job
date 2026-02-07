@@ -32,6 +32,8 @@ class HomeController extends Controller
             return redirect()->route('hr.dashboard');
         } elseif ($user->hasRole('accountant')) {
             return redirect()->route('accountant.dashboard');
+        } elseif ($user->hasRole('candidate')) {
+            return redirect()->route('candidate.profile.index');
         }
 
         return view('home');

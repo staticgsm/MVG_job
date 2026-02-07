@@ -44,6 +44,7 @@
                             <td>
                                 @if(auth()->user()->hasPermission('job.edit'))
                                     <a href="{{ route('admin.jobs.edit', $job) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="{{ route('admin.jobs.applications.index', $job) }}" class="btn btn-sm btn-info">Applications</a>
                                     <form action="{{ route('admin.jobs.destroy', $job) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?')">
                                         @csrf
                                         @method('DELETE')

@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CandidateProfile extends Model
+class JobApplication extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    protected $casts = [
-        'has_active_subscription' => 'boolean',
-    ];
+    public function job()
+    {
+        return $this->belongsTo(JobPost::class, 'job_id');
+    }
 
     public function user()
     {

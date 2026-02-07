@@ -26,4 +26,9 @@ class JobPost extends Model
     {
         return $query->where('status', 'Open');
     }
+
+    public function applications()
+    {
+        return $this->hasMany(JobApplication::class, 'job_id');
+    }
 }
