@@ -28,10 +28,29 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(fu
     Route::resource('permissions', App\Http\Controllers\PermissionController::class);
 });
 
+// Job Management (Admin)
+Route::middleware(['auth', 'permission:job.view'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('jobs', App\Http\Controllers\JobPostController::class);
+});
+
+// Public Job Routes
+Route::get('/jobs', [App\Http\Controllers\PublicJobController::class, 'index'])->name('public.jobs.index');
+Route::get('/jobs/{job}', [App\Http\Controllers\PublicJobController::class, 'show'])->name('public.jobs.show');
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+});
+
+// Candidate Profile Routes
+Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candidate.')->group(function () {
+    Route::get('/profile', [App\Http\Controllers\CandidateProfileController::class, 'show'])->name('profile.index');
+    Route::post('/profile/personal', [App\Http\Controllers\CandidateProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
+    Route::post('/profile/education', [App\Http\Controllers\CandidateProfileController::class, 'updateEducation'])->name('profile.updateEducation');
+    Route::post('/profile/experience', [App\Http\Controllers\CandidateProfileController::class, 'updateExperience'])->name('profile.updateExperience');
+    Route::post('/profile/skills', [App\Http\Controllers\CandidateProfileController::class, 'updateSkills'])->name('profile.updateSkills');
+    Route::post('/profile/resume', [App\Http\Controllers\CandidateProfileController::class, 'uploadResume'])->name('profile.uploadResume');
 });
 
 Route::middleware(['auth', 'role:hr'])->prefix('hr')->group(function () {

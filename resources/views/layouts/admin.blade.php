@@ -111,6 +111,9 @@
                                     <a class="nav-link" href="{{ route('roles.index') }}">Roles & Permissions</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.jobs.index') }}">Job Management</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ route('permissions.index') }}">Permissions List</a>
                                 </li>
                             @endif
