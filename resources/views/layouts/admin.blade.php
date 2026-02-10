@@ -122,21 +122,23 @@
                                     @endif
                                     <a class="nav-link {{ request()->routeIs('admin.candidates.*') ? 'active' : '' }}" href="{{ route('admin.candidates.index') }}">Candidates</a>
                                     <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}" href="{{ route('admin.subscription-plans.index') }}">Subscription Plans</a>
+                                    <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}" href="{{ route('admin.subscription-plans.index') }}">Subscription Plans</a>
                                     <a class="nav-link {{ request()->routeIs('admin.jobs.*') ? 'active' : '' }}" href="{{ route('admin.jobs.index') }}">Jobs</a>
+                                    <a class="nav-link {{ request()->routeIs('admin.master_data.*') ? 'active' : '' }}" href="{{ route('admin.master_data.index') }}">Master Data</a>
                                 </li>
                             @endif
 
-                            @if(auth()->user()->hasRole('hr'))
+                            @if(auth()->user()->hasRole('hr') || auth()->user()->hasRole('super_admin'))
                                 <li class="nav-item">
                                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                                       <span>HR Management</span>
                                     </h6>
                                     <a class="nav-link {{ request()->routeIs('hr.dashboard') ? 'active' : '' }}" href="{{ route('hr.dashboard') }}">Dashboard</a>
-                                    <a class="nav-link" href="#">Applications</a>
+                                    <a class="nav-link {{ request()->routeIs('hr.applications.index') ? 'active' : '' }}" href="{{ route('hr.applications.index') }}">Applications</a>
                                 </li>
                             @endif
 
-                             @if(auth()->user()->hasRole('accountant'))
+                             @if(auth()->user()->hasRole('accountant') || auth()->user()->hasRole('super_admin'))
                                 <li class="nav-item">
                                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                                       <span>Finance</span>
@@ -150,6 +152,31 @@
                 </nav>
 
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
                     @yield('content')
                 </main>
             </div>

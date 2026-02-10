@@ -31,4 +31,31 @@ class JobApplicationController extends Controller
 
         return redirect()->back()->with('success', 'Application updated successfully.');
     }
+
+    public function indexAll()
+    {
+        $applications = JobApplication::with('jobPost', 'user.candidateProfile')
+            ->latest()
+            ->paginate(15);
+            
+        return view('admin.applications.index', compact('applications'));
+    }
+
+    public function downloadResume(\App\Models\JobApplication $application)
+    {
+        if (!$application->user->candidateProfile || !$application->user->candidateProfile->resume_path) {
+            return redirect()->back()->with('error', 'No resume found for this applicant.');
+        }
+
+        return \Illuminate\Support\Facades\Storage::download($application->user->candidateProfile->resume_path);
+    }
+
+    public function viewResume(\App\Models\JobApplication $application)
+    {
+        if (!$application->user->candidateProfile || !$application->user->candidateProfile->resume_path) {
+            return redirect()->back()->with('error', 'No resume found for this applicant.');
+        }
+
+        return \Illuminate\Support\Facades\Storage::response($application->user->candidateProfile->resume_path);
+    }
 }

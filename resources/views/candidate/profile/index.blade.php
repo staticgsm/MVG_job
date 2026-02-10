@@ -12,7 +12,7 @@
                     @php
                         $subscription = Auth::user()->subscription;
                     @endphp
-                    @if(Auth::user()->candidateProfile && Auth::user()->candidateProfile->has_active_subscription && $subscription)
+                    @if($subscription && $subscription->end_date->isFuture())
                         <div class="alert alert-success mb-2">
                              <i class="bi bi-check-circle-fill"></i> Active
                         </div>
@@ -80,7 +80,6 @@
                 <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
                     @include('candidate.profile.partials.skills')
                 </div>
-                <div class="tab-pane fade" id="resume" role="tabpanel" aria-labelledby="resume-tab">
                 <div class="tab-pane fade" id="resume" role="tabpanel" aria-labelledby="resume-tab">
                     @include('candidate.profile.partials.resume')
                 </div>

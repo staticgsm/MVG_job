@@ -11,10 +11,12 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('super_admin.dashboard');
-    })->name('super_admin.dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'superAdmin'])->name('super_admin.dashboard');
 
+    // Payment Export (Super Admin also)
+    Route::get('/payments/export', [App\Http\Controllers\DashboardController::class, 'exportPayments'])->name('payments.export');
+
+    // ... existing super admin routes
     // User Management
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::post('users/{user}/toggle-status', [App\Http\Controllers\UserController::class, 'toggleStatus'])->name('users.toggle-status');
@@ -33,29 +35,36 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(fu
     Route::post('/settings/test-email', [App\Http\Controllers\SuperAdmin\SettingsController::class, 'sendTestEmail'])->name('super_admin.settings.test-email');
 });
 
-// Job Management (Admin)
-Route::middleware(['auth', 'permission:job.view'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('jobs', App\Http\Controllers\JobPostController::class);
-    Route::get('jobs/{job}/applications', [App\Http\Controllers\Admin\JobApplicationController::class, 'index'])->name('jobs.applications.index');
-    Route::put('applications/{application}', [App\Http\Controllers\Admin\JobApplicationController::class, 'update'])->name('jobs.applications.update');
-});
-
-// Public Job Routes
-Route::get('/jobs', [App\Http\Controllers\PublicJobController::class, 'index'])->name('public.jobs.index');
-Route::get('/jobs/{job}', [App\Http\Controllers\PublicJobController::class, 'show'])->name('public.jobs.show');
-Route::post('/jobs/{job}/apply', [App\Http\Controllers\JobApplicationController::class, 'store'])->name('jobs.apply')->middleware(['auth', 'role:candidate', 'subscribed']);
-
+// Admin Dashboard
 Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'admin'])->name('dashboard');
     
     // Candidate Management
     Route::resource('candidates', App\Http\Controllers\Admin\CandidateController::class);
     
     // Subscription Plan Management
     Route::resource('subscription-plans', App\Http\Controllers\Admin\SubscriptionPlanController::class);
+
+    // Job Management
+    Route::resource('jobs', App\Http\Controllers\JobPostController::class);
+    Route::get('jobs/{job}/applications', [App\Http\Controllers\Admin\JobApplicationController::class, 'index'])->name('jobs.applications.index');
+    Route::put('applications/{application}', [App\Http\Controllers\Admin\JobApplicationController::class, 'update'])->name('jobs.applications.update');
+
+    // Payment Export (Admin)
+    Route::get('/payments/export', [App\Http\Controllers\DashboardController::class, 'exportPayments'])->name('payments.export');
+
+    // Master Data Management
+    Route::get('/master-data', [App\Http\Controllers\Admin\MasterDataController::class, 'index'])->name('master_data.index');
+    Route::post('/master-data/skills', [App\Http\Controllers\Admin\MasterDataController::class, 'storeSkill'])->name('master_data.skills.store');
+    Route::delete('/master-data/skills/{skill}', [App\Http\Controllers\Admin\MasterDataController::class, 'destroySkill'])->name('master_data.skills.destroy');
+    Route::post('/master-data/education', [App\Http\Controllers\Admin\MasterDataController::class, 'storeEducation'])->name('master_data.education.store');
+    Route::delete('/master-data/education/{course}', [App\Http\Controllers\Admin\MasterDataController::class, 'destroyEducation'])->name('master_data.education.destroy');
 });
+
+// Public Job Routes
+Route::get('/jobs', [App\Http\Controllers\PublicJobController::class, 'index'])->name('public.jobs.index');
+Route::get('/jobs/{job}', [App\Http\Controllers\PublicJobController::class, 'show'])->name('public.jobs.show');
+Route::post('/jobs/{job}/apply', [App\Http\Controllers\JobApplicationController::class, 'store'])->name('jobs.apply')->middleware(['auth', 'role:candidate', 'subscribed']);
 
 // Candidate Routes
 Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candidate.')->group(function () {
@@ -87,14 +96,19 @@ Route::get('/profile', function() {
     return redirect()->route('candidate.profile.index');
 })->middleware(['auth', 'role:candidate']);
 
-Route::middleware(['auth', 'role:hr'])->prefix('hr')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('hr.dashboard');
-    })->name('hr.dashboard');
+// HR Dashboard
+Route::middleware(['auth', 'role:hr,super_admin'])->prefix('hr')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'hr'])->name('hr.dashboard');
+    Route::get('/applications', [App\Http\Controllers\Admin\JobApplicationController::class, 'indexAll'])->name('hr.applications.index');
+    Route::put('/applications/{application}', [App\Http\Controllers\Admin\JobApplicationController::class, 'update'])->name('hr.applications.update');
+    Route::get('/applications/{application}/resume/download', [App\Http\Controllers\Admin\JobApplicationController::class, 'downloadResume'])->name('hr.applications.resume.download');
+    Route::get('/applications/{application}/resume/view', [App\Http\Controllers\Admin\JobApplicationController::class, 'viewResume'])->name('hr.applications.resume.view');
 });
 
-Route::middleware(['auth', 'role:accountant'])->prefix('accountant')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('accountant.dashboard');
-    })->name('accountant.dashboard');
+// Accountant Dashboard
+Route::middleware(['auth', 'role:accountant,super_admin'])->prefix('accountant')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'accountant'])->name('accountant.dashboard');
+    
+    // Payment Export
+    Route::get('/payments/export', [App\Http\Controllers\DashboardController::class, 'exportPayments'])->name('accountant.payments.export');
 });

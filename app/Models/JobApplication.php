@@ -11,7 +11,7 @@ class JobApplication extends Model
 
     protected $guarded = [];
 
-    public function job()
+    public function jobPost()
     {
         return $this->belongsTo(JobPost::class, 'job_id');
     }

@@ -7,7 +7,12 @@
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Skill Name</label>
-                        <input type="text" class="form-control" name="skill_name[]" value="{{ $skill->skill_name }}" required>
+                        <select class="form-select" name="skill_name[]" required>
+                            <option value="">Select Skill</option>
+                            @foreach($masterSkills as $masterSkill)
+                                <option value="{{ $masterSkill->name }}" {{ $skill->skill_name == $masterSkill->name ? 'selected' : '' }}>{{ $masterSkill->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Skill Level</label>
@@ -35,8 +40,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('skills-fields');
     const addButton = document.getElementById('addSkill');
+    const masterSkills = @json($masterSkills);
 
     function createRow() {
+        // Build options for skill select
+        let skillOptions = '<option value="">Select Skill</option>';
+        masterSkills.forEach(skill => {
+            skillOptions += `<option value="${skill.name}">${skill.name}</option>`;
+        });
+
         const div = document.createElement('div');
         div.className = 'skill-row border p-3 mb-3 rounded position-relative';
         div.innerHTML = `
@@ -44,7 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label class="form-label">Skill Name</label>
-                    <input type="text" class="form-control" name="skill_name[]" required>
+                    <select class="form-select" name="skill_name[]" required>
+                        ${skillOptions}
+                    </select>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label class="form-label">Skill Level</label>

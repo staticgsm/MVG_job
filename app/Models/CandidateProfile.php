@@ -13,6 +13,7 @@ class CandidateProfile extends Model
 
     protected $casts = [
         'has_active_subscription' => 'boolean',
+        'dob' => 'date',
     ];
 
     public function user()

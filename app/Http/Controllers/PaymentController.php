@@ -122,8 +122,11 @@ class PaymentController extends Controller
             // Notify User
             $payment->user->notify(new \App\Notifications\SubscriptionActivated($userSubscription));
 
-            // Update User Profile flag
-            $payment->user->candidateProfile()->update(['has_active_subscription' => true]);
+            // Update User Profile flag - Ensure profile exists
+            $payment->user->candidateProfile()->updateOrCreate(
+                ['user_id' => $payment->user_id],
+                ['has_active_subscription' => true]
+            );
 
             return redirect()->route('candidate.profile.index')->with('success', 'Payment Successful! Subscription Activated.');
         }

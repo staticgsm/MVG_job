@@ -31,10 +31,10 @@
                                 @forelse($applications as $application)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('public.jobs.show', $application->job) }}" class="text-decoration-none fw-bold">
-                                                {{ $application->job->title }}
+                                            <a href="{{ route('public.jobs.show', $application->jobPost) }}" class="text-decoration-none fw-bold">
+                                                {{ $application->jobPost->title }}
                                             </a>
-                                            <div class="text-muted small">{{ $application->job->company_name ?? 'MVG Job' }}</div>
+                                            <div class="text-muted small">{{ $application->jobPost->company_name ?? 'MVG Job' }}</div>
                                         </td>
                                         <td>{{ $application->applied_at }}</td>
                                         <td>

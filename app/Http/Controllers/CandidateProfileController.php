@@ -19,7 +19,10 @@ class CandidateProfileController extends Controller
         $experiences = $user->candidateExperiences;
         $skills = $user->candidateSkills;
 
-        return view('candidate.profile.index', compact('user', 'profile', 'educations', 'experiences', 'skills'));
+        $masterSkills = \App\Models\Skill::all();
+        $masterCourses = \App\Models\EducationCourse::all();
+
+        return view('candidate.profile.index', compact('user', 'profile', 'educations', 'experiences', 'skills', 'masterSkills', 'masterCourses'));
     }
 
     public function updatePersonal(Request $request)
@@ -55,7 +58,7 @@ class CandidateProfileController extends Controller
             'institute_name.*' => 'required|string',
             'university_board.*' => 'required|string',
             'marks_percentage.*' => 'required|string',
-            'passing_year.*' => 'required|integer|digits:4',
+            'passing_year.*' => 'required|integer|digits:4|min:1901|max:' . (date('Y') + 10),
         ]);
 
         $user = auth()->user();

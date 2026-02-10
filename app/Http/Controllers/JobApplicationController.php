@@ -47,7 +47,7 @@ class JobApplicationController extends Controller
 
     public function candidateIndex()
     {
-        $applications = auth()->user()->jobApplications()->with('job')->latest()->get();
+        $applications = auth()->user()->jobApplications()->with('jobPost')->latest()->get();
         return view('candidate.applications.index', compact('applications'));
     }
 

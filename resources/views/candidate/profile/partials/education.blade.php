@@ -16,7 +16,13 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Course Name</label>
-                        <input type="text" class="form-control" name="course_name[]" value="{{ $education->course_name }}" required>
+                        <select class="form-select" name="course_name[]" required>
+                            <option value="">Select Course</option>
+                            @foreach($masterCourses as $course)
+                                <option value="{{ $course->name }}" {{ $education->course_name == $course->name ? 'selected' : '' }}>{{ $course->name }} ({{ $course->type }})</option>
+                            @endforeach
+                             <!-- Fallback or 'Other' option could be added here if needed, but strict list requested -->
+                        </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Institute Name</label>
@@ -49,8 +55,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('education-fields');
     const addButton = document.getElementById('addEducation');
+    const masterCourses = @json($masterCourses);
 
     function createRow() {
+        // Build options for course select
+        let courseOptions = '<option value="">Select Course</option>';
+        masterCourses.forEach(course => {
+            courseOptions += `<option value="${course.name}">${course.name} (${course.type || ''})</option>`;
+        });
+
         const div = document.createElement('div');
         div.className = 'education-row border p-3 mb-3 rounded position-relative';
         div.innerHTML = `
@@ -70,7 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="col-md-4 mb-3">
                     <label class="form-label">Course Name</label>
-                    <input type="text" class="form-control" name="course_name[]" required>
+                    <select class="form-select" name="course_name[]" required>
+                        ${courseOptions}
+                    </select>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label class="form-label">Institute Name</label>

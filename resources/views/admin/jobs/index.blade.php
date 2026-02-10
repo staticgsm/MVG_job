@@ -19,7 +19,9 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th>Job ID</th>
                             <th>Title</th>
+                            <th>Project</th>
                             <th>Department</th>
                             <th>Location</th>
                             <th>Status</th>
@@ -30,7 +32,9 @@
                     <tbody>
                         @foreach($jobs as $job)
                         <tr>
+                            <td><strong>{{ $job->job_code }}</strong></td>
                             <td>{{ $job->title }}</td>
+                            <td>{{ $job->project_name ?? '-' }}</td>
                             <td>{{ $job->department }}</td>
                             <td>{{ $job->location }}</td>
                             <td>

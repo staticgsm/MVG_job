@@ -68,6 +68,9 @@
                  <li class="nav-item">
                     <a class="nav-link" id="applications-tab" data-toggle="tab" href="#applications" role="tab">Applications</a>
                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" id="payments-tab" data-toggle="tab" href="#payments" role="tab">Payment History</a>
+                </li>
             </ul>
             <div class="tab-content border border-top-0 p-3 bg-white shadow-sm" id="profileTabsContent">
                 
@@ -113,6 +116,7 @@
                      <table class="table table-sm">
                          <thead>
                              <tr>
+                                 <th>Job Code</th>
                                  <th>Job Title</th>
                                  <th>Company</th>
                                  <th>Applied On</th>
@@ -122,8 +126,9 @@
                          <tbody>
                              @forelse($candidate->jobApplications as $app)
                                  <tr>
+                                     <td><strong>{{ $app->jobPost->job_code }}</strong></td>
                                      <td>{{ $app->jobPost->title }}</td>
-                                     <td>{{ $app->jobPost->company_name }}</td>
+                                     <td>{{ $app->jobPost->company_name ?? 'N/A' }}</td>
                                      <td>{{ $app->created_at->format('d M, Y') }}</td>
                                      <td><span class="badge bg-info text-dark">{{ ucfirst($app->status) }}</span></td>
                                  </tr>
@@ -132,6 +137,44 @@
                              @endforelse
                          </tbody>
                      </table>
+                </div>
+
+                <!-- Payment History -->
+                <div class="tab-pane fade" id="payments" role="tabpanel">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Txn ID</th>
+                                <th>Plan</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($candidate->payments as $payment)
+                                <tr>
+                                    <td>{{ $payment->txnid }}</td>
+                                    <td>{{ $payment->subscriptionPlan->name ?? 'N/A' }}</td>
+                                    <td>₹{{ $payment->amount }}</td>
+                                    <td>
+                                        @if($payment->status == 'success')
+                                            <span class="badge bg-success">Success</span>
+                                        @elseif($payment->status == 'pending')
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        @else
+                                            <span class="badge bg-danger">Failed</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $payment->created_at->format('d M, Y H:i') }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">No payment history found.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
 
             </div>

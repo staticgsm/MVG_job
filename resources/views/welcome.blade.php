@@ -28,8 +28,8 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card p-5 text-center">
-                    <h1 class="mb-4">{{ config('app.name', 'Laravel') }}</h1>
-                    <p class="lead mb-4">Role Based Access Control System</p>
+                    <h1 class="mb-4">{{ config('app.name', 'MVG Job') }}</h1>
+                    <p class="lead mb-4">Job Portal</p>
                     
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                         @if (Route::has('login'))

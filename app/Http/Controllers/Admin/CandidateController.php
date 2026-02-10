@@ -32,7 +32,8 @@ class CandidateController extends Controller
             'candidateExperiences', 
             'candidateSkills', 
             'subscription.subscriptionPlan',
-            'jobApplications.jobPost'
+            'jobApplications.jobPost',
+            'payments.subscriptionPlan'
         ])->findOrFail($id);
 
         return view('admin.candidates.show', compact('candidate'));

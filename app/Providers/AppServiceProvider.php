@@ -19,6 +19,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Define Gates for Permissions
+        \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
+            if ($user->hasRole('super_admin')) {
+                return true;
+            }
+            // Check if ability matches a permission slug
+            if ($user->hasPermission($ability)) {
+                return true;
+            }
+        });
+
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
                 $settings = \App\Models\Setting::all()->pluck('value', 'key');
