@@ -80,7 +80,7 @@ Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candid
         Route::post('/profile/education', [App\Http\Controllers\CandidateProfileController::class, 'updateEducation'])->name('profile.updateEducation');
         Route::post('/profile/experience', [App\Http\Controllers\CandidateProfileController::class, 'updateExperience'])->name('profile.updateExperience');
         Route::post('/profile/skills', [App\Http\Controllers\CandidateProfileController::class, 'updateSkills'])->name('profile.updateSkills');
-        Route::post('/profile/resume', [App\Http\Controllers\CandidateProfileController::class, 'uploadResume'])->name('profile.uploadResume');
+        Route::post('/profile/documents', [App\Http\Controllers\CandidateProfileController::class, 'updateDocuments'])->name('profile.updateDocuments');
         
         // Applications
         Route::get('/applications', [App\Http\Controllers\JobApplicationController::class, 'candidateIndex'])->name('applications.index');

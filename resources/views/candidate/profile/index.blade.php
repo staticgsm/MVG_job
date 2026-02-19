@@ -62,7 +62,7 @@
                     <button class="nav-link" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills" type="button" role="tab" aria-controls="skills" aria-selected="false">Skills</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="resume-tab" data-bs-toggle="tab" data-bs-target="#resume" type="button" role="tab" aria-controls="resume" aria-selected="false">Resume</button>
+                    <button class="nav-link" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab" aria-controls="documents" aria-selected="false">Documents</button>
                 </li>
             </ul>
         </div>
@@ -80,8 +80,8 @@
                 <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
                     @include('candidate.profile.partials.skills')
                 </div>
-                <div class="tab-pane fade" id="resume" role="tabpanel" aria-labelledby="resume-tab">
-                    @include('candidate.profile.partials.resume')
+                <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                    @include('candidate.profile.partials.documents')
                 </div>
             </div>
         </div>

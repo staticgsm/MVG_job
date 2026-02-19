@@ -1,5 +1,20 @@
 <form action="{{ route('candidate.profile.updateEducation') }}" method="POST" id="educationForm">
     @csrf
+    
+    <div class="mb-4 p-3 bg-light border rounded">
+        <label for="highest_education" class="form-label fw-bold">Highest Educational Qualification</label>
+        <select class="form-select @error('highest_education') is-invalid @enderror" name="highest_education" required>
+            <option value="">Select Highest Education</option>
+            @foreach(['10th', '12th', 'Diploma', 'Graduate', 'Post Graduate', 'Other'] as $edu)
+                <option value="{{ $edu }}" {{ old('highest_education', $profile->highest_education ?? '') == $edu ? 'selected' : '' }}>{{ $edu }}</option>
+            @endforeach
+        </select>
+        @error('highest_education')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <h5 class="mb-3">Education History</h5>
     <div id="education-fields">
         @foreach($educations as $index => $education)
             <div class="education-row border p-3 mb-3 rounded position-relative">

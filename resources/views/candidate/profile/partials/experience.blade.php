@@ -1,6 +1,23 @@
 <form action="{{ route('candidate.profile.updateExperience') }}" method="POST" id="experienceForm">
     @csrf
-    <div id="experience-fields">
+
+    <div class="mb-4 p-3 bg-light border rounded">
+        <div class="mb-3">
+            <label for="experience" class="form-label fw-bold">Experience Summary</label>
+            <textarea class="form-control" name="experience" rows="3" placeholder="Briefly describe your overall experience (e.g. 2 years in teaching)...">{{ old('experience', $profile->experience ?? '') }}</textarea>
+        </div>
+        
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="has_no_experience" id="has_no_experience" value="1">
+            <label class="form-check-label" for="has_no_experience">
+                I do not have any work experience (Fresher)
+            </label>
+        </div>
+    </div>
+
+    <div id="experience-section">
+        <h5 class="mb-3">Work History</h5>
+        <div id="experience-fields">
         @foreach($experiences as $index => $experience)
             <div class="experience-row border p-3 mb-3 rounded position-relative">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-experience" aria-label="Close"></button>
@@ -40,6 +57,7 @@
             </div>
         @endforeach
     </div>
+    </div> <!-- End experience-section -->
     
     <button type="button" class="btn btn-secondary mb-3" id="addExperience">Add Experience</button>
     <button type="submit" class="btn btn-primary mb-3">Save Experience Details</button>
@@ -49,6 +67,24 @@
 document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('experience-fields');
     const addButton = document.getElementById('addExperience');
+    const noExpCheckbox = document.getElementById('has_no_experience');
+    const experienceSection = document.getElementById('experience-section');
+    const saveButton = document.querySelector('#experienceForm button[type="submit"]'); // Adjust selector if needed
+
+    function toggleExperienceFields() {
+        if (noExpCheckbox.checked) {
+            experienceSection.style.display = 'none';
+            addButton.style.display = 'none';
+        } else {
+            experienceSection.style.display = 'block';
+            addButton.style.display = 'inline-block';
+        }
+    }
+
+    noExpCheckbox.addEventListener('change', toggleExperienceFields);
+    
+    // Initial State checks
+    toggleExperienceFields();
 
     function createRow() {
         const div = document.createElement('div');

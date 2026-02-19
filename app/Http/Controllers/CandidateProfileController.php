@@ -29,20 +29,33 @@ class CandidateProfileController extends Controller
     {
         $request->validate([
             'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'dob' => 'required|date',
             'gender' => 'required|string',
+            'category' => 'required|string',
             'phone' => 'required|string|max:20',
+            'aadhaar_no' => 'required|string|max:20',
             'address' => 'required|string',
+            'district' => 'required|string|max:255',
+            'taluka' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
+            'photo' => 'nullable|image|max:2048',
         ]);
 
         $user = auth()->user();
+        $data = $request->except(['_token', 'photo']);
+
+        // Handle File Uploads
+        if ($request->hasFile('photo')) {
+            $data['photo_path'] = $request->file('photo')->store('profile_photos', 'public');
+        }
+
         $user->candidateProfile()->updateOrCreate(
             ['user_id' => $user->id],
-            $request->except('_token')
+            $data
         );
 
         $this->calculateCompletion();
@@ -50,9 +63,47 @@ class CandidateProfileController extends Controller
         return redirect()->back()->with('success', 'Personal details updated successfully.');
     }
 
+    public function updateDocuments(Request $request)
+    {
+        $request->validate([
+            'aadhaar_doc' => 'nullable|mimes:pdf|max:2048',
+            'education_doc' => 'nullable|mimes:pdf|max:2048',
+            'bank_doc' => 'nullable|mimes:pdf|max:2048',
+            'resume' => 'nullable|mimes:pdf|max:2048',
+        ]);
+
+        $user = auth()->user();
+        $data = [];
+
+        if ($request->hasFile('aadhaar_doc')) {
+            $data['aadhaar_doc_path'] = $request->file('aadhaar_doc')->store('documents', 'public');
+        }
+        if ($request->hasFile('education_doc')) {
+            $data['education_doc_path'] = $request->file('education_doc')->store('documents', 'public');
+        }
+        if ($request->hasFile('bank_doc')) {
+            $data['bank_doc_path'] = $request->file('bank_doc')->store('documents', 'public');
+        }
+        if ($request->hasFile('resume')) {
+            $data['resume_path'] = $request->file('resume')->store('resumes', 'public');
+        }
+
+        if (!empty($data)) {
+            $user->candidateProfile()->updateOrCreate(
+                ['user_id' => $user->id],
+                $data
+            );
+        }
+
+        $this->calculateCompletion();
+
+        return redirect()->back()->with('success', 'Documents uploaded successfully.');
+    }
+
     public function updateEducation(Request $request)
     {
         $request->validate([
+            'highest_education' => 'required|string',
             'education_level.*' => 'required|string',
             'course_name.*' => 'required|string',
             'institute_name.*' => 'required|string',
@@ -63,11 +114,13 @@ class CandidateProfileController extends Controller
 
         $user = auth()->user();
         
-        // Simple approach: Delete all and recreate (for prototype/simplicity in this context)
-        // Ideally, we should handle updates by ID, but dynamic rows usually imply full replacement or careful ID tracking.
-        // Given the request complexity, we'll try to sync or re-create.
-        
-        // Let's assume the form sends arrays. We will clear existing and re-add.
+        // Save Highest Education
+        $user->candidateProfile()->updateOrCreate(
+            ['user_id' => $user->id],
+            ['highest_education' => $request->highest_education]
+        );
+
+        // Update Education History
         $user->candidateEducations()->delete();
 
         if ($request->has('education_level')) {
@@ -90,18 +143,34 @@ class CandidateProfileController extends Controller
 
     public function updateExperience(Request $request)
     {
-        $request->validate([
-            'company_name.*' => 'required|string',
-            'designation.*' => 'required|string',
-            'employment_type.*' => 'required|string',
-            'start_date.*' => 'required|date',
-            'job_description.*' => 'nullable|string',
-        ]);
+        $rules = [
+            'experience' => 'nullable|string',
+            'has_no_experience' => 'nullable|boolean',
+        ];
+
+        // Only validate work history if NOT "No Experience"
+        if (!$request->has('has_no_experience')) {
+            $rules['company_name.*'] = 'required|string';
+            $rules['designation.*'] = 'required|string';
+            $rules['employment_type.*'] = 'required|string';
+            $rules['start_date.*'] = 'required|date';
+            $rules['job_description.*'] = 'nullable|string';
+        }
+
+        $request->validate($rules);
 
         $user = auth()->user();
+
+        // Save Experience Summary inside Candidate Profile
+        $user->candidateProfile()->updateOrCreate(
+            ['user_id' => $user->id],
+            ['experience' => $request->experience]
+        );
+
+        // Update Work History
         $user->candidateExperiences()->delete();
 
-        if ($request->has('company_name')) {
+        if (!$request->has('has_no_experience') && $request->has('company_name')) {
             foreach ($request->company_name as $key => $value) {
                 $user->candidateExperiences()->create([
                     'company_name' => $request->company_name[$key],
