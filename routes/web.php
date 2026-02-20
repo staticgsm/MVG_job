@@ -2,7 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+// Public Frontend Routes
+Route::get('/', [App\Http\Controllers\FrontendController::class, 'home'])->name('frontend.home');
+Route::get('/about', [App\Http\Controllers\FrontendController::class, 'about'])->name('frontend.about');
+Route::get('/contact', [App\Http\Controllers\FrontendController::class, 'contact'])->name('frontend.contact');
+Route::get('/services', [App\Http\Controllers\FrontendController::class, 'services'])->name('frontend.services');
+
+Route::prefix('services')->name('frontend.services.')->group(function () {
+    Route::get('/manpower', [App\Http\Controllers\FrontendController::class, 'manpower'])->name('manpower');
+    Route::get('/security', [App\Http\Controllers\FrontendController::class, 'security'])->name('security');
+    Route::get('/vehicle', [App\Http\Controllers\FrontendController::class, 'vehicle'])->name('vehicle');
+    Route::get('/catering', [App\Http\Controllers\FrontendController::class, 'catering'])->name('catering');
+    Route::get('/garden', [App\Http\Controllers\FrontendController::class, 'garden'])->name('garden');
+    Route::get('/cleaning', [App\Http\Controllers\FrontendController::class, 'cleaning'])->name('cleaning');
+    Route::get('/data-entry', [App\Http\Controllers\FrontendController::class, 'dataEntry'])->name('data');
+    Route::get('/hospital', [App\Http\Controllers\FrontendController::class, 'hospital'])->name('hospital');
+    Route::get('/civil', [App\Http\Controllers\FrontendController::class, 'civil'])->name('civil');
+    Route::get('/housekeeping', [App\Http\Controllers\FrontendController::class, 'housekeeping'])->name('housekeeping');
+    Route::get('/civil-works', [App\Http\Controllers\FrontendController::class, 'civilWork'])->name('civilwork');
+});
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
