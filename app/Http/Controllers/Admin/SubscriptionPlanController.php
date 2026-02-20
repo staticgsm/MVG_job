@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\Models\SubscriptionPlan;
+use Illuminate\Http\Request;
 
 class SubscriptionPlanController extends Controller
 {
@@ -15,6 +14,7 @@ class SubscriptionPlanController extends Controller
     public function index()
     {
         $plans = SubscriptionPlan::all();
+
         return view('admin.subscription_plans.index', compact('plans'));
     }
 
@@ -58,6 +58,7 @@ class SubscriptionPlanController extends Controller
     public function edit(string $id)
     {
         $plan = SubscriptionPlan::findOrFail($id);
+
         return view('admin.subscription_plans.edit', compact('plan'));
     }
 
@@ -78,7 +79,7 @@ class SubscriptionPlanController extends Controller
         // Handle checkbox boolean which might be missing from request if unchecked
         $data = $request->all();
         $data['is_active'] = $request->has('is_active');
-        
+
         $plan->update($data);
 
         return redirect()->route('admin.subscription-plans.index')->with('success', 'Plan updated successfully.');

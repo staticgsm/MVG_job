@@ -20,11 +20,11 @@ class EnsureSubscription
         if ($user && $user->hasRole('candidate')) {
             // Check if user has an active subscription directly from subscription table
             // This is more robust than the profile flag which might get out of sync
-            $hasActiveSubscription = $user->subscription()->exists() && 
+            $hasActiveSubscription = $user->subscription()->exists() &&
                                      $user->subscription->end_date->isFuture();
 
-            if (!$hasActiveSubscription) {
-                 return redirect()->route('candidate.subscriptions.index')->with('error', 'Please subscribe to a plan to access your profile and apply for jobs.');
+            if (! $hasActiveSubscription) {
+                return redirect()->route('candidate.subscriptions.index')->with('error', 'Please subscribe to a plan to access your profile and apply for jobs.');
             }
         }
 

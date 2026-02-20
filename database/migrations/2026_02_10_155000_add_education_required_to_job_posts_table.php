@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('job_posts', function (Blueprint $table) {
-            if (!Schema::hasColumn('job_posts', 'skills_required')) {
+            if (! Schema::hasColumn('job_posts', 'skills_required')) {
                 $table->json('skills_required')->nullable()->after('description');
             }
-            if (!Schema::hasColumn('job_posts', 'education_required')) {
+            if (! Schema::hasColumn('job_posts', 'education_required')) {
                 // If skills_required exists (or was just added), put education after it.
                 // If not, put after description. But we just added skills_required above so it should exist conceptually.
                 // However, in same transaction, it might be tricky. Let's just say after description for safety or use after skills_required.

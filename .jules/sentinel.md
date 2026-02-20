@@ -1,0 +1,4 @@
+## 2025-05-14 - Exposed Mail Credentials and Insecure Document Storage
+**Vulnerability:** Hardcoded mail credentials in a generated debug file (`debug_output.txt`) and sensitive personal documents (Aadhaar, Bank Passbook, Resume) stored in the `public` disk, making them accessible via direct URL.
+**Learning:** Leftover debug scripts (`debug_settings.php`) can leak database-stored secrets into the filesystem. Additionally, using the `public` disk for sensitive documents in Laravel exposes them to the internet if the symbolic link is active.
+**Prevention:** Always remove debug scripts and output files from production. Store sensitive documents in a private disk (e.g., `local` with root outside `public_path`) and serve them through streaming responses in controllers with proper authorization checks.

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\Models\User;
 
 class CandidateController extends Controller
@@ -27,13 +25,13 @@ class CandidateController extends Controller
     public function show(string $id)
     {
         $candidate = User::with([
-            'candidateProfile', 
-            'candidateEducations', 
-            'candidateExperiences', 
-            'candidateSkills', 
+            'candidateProfile',
+            'candidateEducations',
+            'candidateExperiences',
+            'candidateSkills',
             'subscription.subscriptionPlan',
             'jobApplications.jobPost',
-            'payments.subscriptionPlan'
+            'payments.subscriptionPlan',
         ])->findOrFail($id);
 
         return view('admin.candidates.show', compact('candidate'));

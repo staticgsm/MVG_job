@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('payment_logs')) {
+        if (! Schema::hasTable('payment_logs')) {
             Schema::create('payment_logs', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('payment_id')->nullable()->constrained()->onDelete('set null');

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\JobPost;
+use Illuminate\Http\Request;
 
 class PublicJobController extends Controller
 {
@@ -14,16 +13,16 @@ class PublicJobController extends Controller
 
         // Keyword Search
         if ($request->filled('keyword')) {
-            $query->where(function($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->keyword . '%')
-                  ->orWhere('description', 'like', '%' . $request->keyword . '%')
-                  ->orWhere('project_name', 'like', '%' . $request->keyword . '%');
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%'.$request->keyword.'%')
+                    ->orWhere('description', 'like', '%'.$request->keyword.'%')
+                    ->orWhere('project_name', 'like', '%'.$request->keyword.'%');
             });
         }
 
         // Location Filter
         if ($request->filled('location')) {
-            $query->where('location', 'like', '%' . $request->location . '%');
+            $query->where('location', 'like', '%'.$request->location.'%');
         }
 
         // Job Type Filter
@@ -33,7 +32,7 @@ class PublicJobController extends Controller
 
         // Skills Filter (JSON Array)
         if ($request->filled('skills') && is_array($request->skills)) {
-            $query->where(function($q) use ($request) {
+            $query->where(function ($q) use ($request) {
                 foreach ($request->skills as $skill) {
                     $q->orWhereJsonContains('skills_required', $skill);
                 }
@@ -42,7 +41,7 @@ class PublicJobController extends Controller
 
         // Education Filter (JSON Array)
         if ($request->filled('education') && is_array($request->education)) {
-            $query->where(function($q) use ($request) {
+            $query->where(function ($q) use ($request) {
                 foreach ($request->education as $edu) {
                     $q->orWhereJsonContains('education_required', $edu);
                 }
@@ -63,6 +62,7 @@ class PublicJobController extends Controller
         if ($job->status !== 'Open') {
             abort(404);
         }
+
         return view('public.jobs.show', compact('job'));
     }
 }

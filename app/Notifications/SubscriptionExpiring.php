@@ -37,12 +37,12 @@ class SubscriptionExpiring extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Subscription Expiring Soon')
-                    ->greeting('Hello, ' . $notifiable->name)
-                    ->line('This is a reminder that your subscription for ' . $this->subscription->subscriptionPlan->name . ' is expiring on ' . $this->subscription->end_date->format('d M, Y') . '.')
-                    ->line('Please renew your plan to continue browsing and applying for jobs.')
-                    ->action('Renew Now', route('candidate.subscriptions.index'))
-                    ->line('Thank you!');
+            ->subject('Subscription Expiring Soon')
+            ->greeting('Hello, '.$notifiable->name)
+            ->line('This is a reminder that your subscription for '.$this->subscription->subscriptionPlan->name.' is expiring on '.$this->subscription->end_date->format('d M, Y').'.')
+            ->line('Please renew your plan to continue browsing and applying for jobs.')
+            ->action('Renew Now', route('candidate.subscriptions.index'))
+            ->line('Thank you!');
     }
 
     /**

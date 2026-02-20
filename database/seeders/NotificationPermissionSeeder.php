@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Permission;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
 
 class NotificationPermissionSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class NotificationPermissionSeeder extends Seeder
 
         // Assign to Roles (Admin, HR, Super Admin)
         $roles = ['admin', 'hr', 'super_admin'];
-        
+
         foreach ($roles as $slug) {
             $role = Role::where('slug', $slug)->first();
             if ($role) {

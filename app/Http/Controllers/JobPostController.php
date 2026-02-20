@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\JobPost;
+use Illuminate\Http\Request;
 
 class JobPostController extends Controller
 {
     public function index()
     {
         $jobs = JobPost::latest()->paginate(10);
+
         return view('admin.jobs.index', compact('jobs'));
     }
 
@@ -18,11 +18,12 @@ class JobPostController extends Controller
     {
         $skills = \App\Models\Skill::all();
         $educationCourses = \App\Models\EducationCourse::all();
+
         return view('admin.jobs.create', compact('skills', 'educationCourses'));
     }
 
     public function store(Request $request)
-    {       
+    {
         $request->validate([
             'title' => 'required|string|max:255',
             'project_name' => 'nullable|string|max:255',
@@ -50,6 +51,7 @@ class JobPostController extends Controller
     {
         $skills = \App\Models\Skill::all();
         $educationCourses = \App\Models\EducationCourse::all();
+
         return view('admin.jobs.edit', compact('job', 'skills', 'educationCourses'));
     }
 
@@ -81,6 +83,7 @@ class JobPostController extends Controller
     public function destroy(JobPost $job)
     {
         $job->delete();
+
         return redirect()->route('admin.jobs.index')->with('success', 'Job post deleted successfully.');
     }
 }

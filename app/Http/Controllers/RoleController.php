@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
@@ -13,6 +12,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::withCount('users')->get();
+
         return view('admin.roles.index', compact('roles'));
     }
 
@@ -73,6 +73,7 @@ class RoleController extends Controller
     public function permissions(Role $role)
     {
         $permissions = Permission::all();
+
         return view('admin.roles.permissions', compact('role', 'permissions'));
     }
 
@@ -83,7 +84,7 @@ class RoleController extends Controller
             'permissions.*' => 'exists:permissions,id',
         ]);
 
-        // Prevent removing critical permissions from super_admin? 
+        // Prevent removing critical permissions from super_admin?
         // For now, we trust super admin knows what they are doing, or we can enforce it.
         // Let's just sync.
 

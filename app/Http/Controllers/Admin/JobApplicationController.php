@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\JobPost;
 use App\Models\JobApplication;
+use App\Models\JobPost;
+use Illuminate\Http\Request;
 
 class JobApplicationController extends Controller
 {
     public function index(JobPost $job)
     {
         $applications = $job->applications()->with('user.candidateProfile')->latest()->paginate(10);
+
         return view('admin.jobs.applications.index', compact('job', 'applications'));
     }
 
@@ -37,13 +38,13 @@ class JobApplicationController extends Controller
         $applications = JobApplication::with('jobPost', 'user.candidateProfile')
             ->latest()
             ->paginate(15);
-            
+
         return view('admin.applications.index', compact('applications'));
     }
 
     public function downloadResume(\App\Models\JobApplication $application)
     {
-        if (!$application->user->candidateProfile || !$application->user->candidateProfile->resume_path) {
+        if (! $application->user->candidateProfile || ! $application->user->candidateProfile->resume_path) {
             return redirect()->back()->with('error', 'No resume found for this applicant.');
         }
 
@@ -52,7 +53,7 @@ class JobApplicationController extends Controller
 
     public function viewResume(\App\Models\JobApplication $application)
     {
-        if (!$application->user->candidateProfile || !$application->user->candidateProfile->resume_path) {
+        if (! $application->user->candidateProfile || ! $application->user->candidateProfile->resume_path) {
             return redirect()->back()->with('error', 'No resume found for this applicant.');
         }
 

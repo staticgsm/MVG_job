@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\SubscriptionPlan;
 use App\Models\Payment;
+use App\Models\SubscriptionPlan;
 use App\Services\PayUService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
@@ -22,13 +22,14 @@ class SubscriptionController extends Controller
     {
         $plans = SubscriptionPlan::where('is_active', true)->get();
         $currentSubscription = auth()->user()->subscription; // Get active subscription
+
         return view('subscriptions.index', compact('plans', 'currentSubscription'));
     }
 
     public function initiate(Request $request, SubscriptionPlan $plan)
     {
         $user = auth()->user();
-        $txnid = 'txn_' . Str::random(10) . '_' . time();
+        $txnid = 'txn_'.Str::random(10).'_'.time();
 
         // Create Initiate Payment Record
         $payment = Payment::create([
@@ -60,8 +61,8 @@ class SubscriptionController extends Controller
 
         // Generate Hash
         // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
-        $hashString = $params['key'] . '|' . $params['txnid'] . '|' . $params['amount'] . '|' . $params['productinfo'] . '|' . $params['firstname'] . '|' . $params['email'] . '|' . $params['udf1'] . '|' . $params['udf2'] . '|' . $params['udf3'] . '|' . $params['udf4'] . '|' . $params['udf5'] . '||||||' . config('services.payu.salt');
-        
+        $hashString = $params['key'].'|'.$params['txnid'].'|'.$params['amount'].'|'.$params['productinfo'].'|'.$params['firstname'].'|'.$params['email'].'|'.$params['udf1'].'|'.$params['udf2'].'|'.$params['udf3'].'|'.$params['udf4'].'|'.$params['udf5'].'||||||'.config('services.payu.salt');
+
         \Illuminate\Support\Facades\Log::info('PayU Params:', $params); // Debug Log
 
         $hash = strtolower(hash('sha512', $hashString));

@@ -31,6 +31,7 @@ class SubscriptionActivated extends Notification implements ShouldQueue
         if (\App\Models\Setting::get('notification_subscription_activated', '1') !== '1') {
             return [];
         }
+
         return ['mail'];
     }
 
@@ -40,13 +41,13 @@ class SubscriptionActivated extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Subscription Activated!')
-                    ->greeting('Hello, ' . $notifiable->name)
-                    ->line('Your subscription for ' . $this->subscription->subscriptionPlan->name . ' has been successfully activated.')
-                    ->line('Start Date: ' . $this->subscription->start_date->format('d M, Y'))
-                    ->line('End Date: ' . $this->subscription->end_date->format('d M, Y'))
-                    ->action('View Subscription', route('candidate.subscriptions.index'))
-                    ->line('You can now apply for jobs!');
+            ->subject('Subscription Activated!')
+            ->greeting('Hello, '.$notifiable->name)
+            ->line('Your subscription for '.$this->subscription->subscriptionPlan->name.' has been successfully activated.')
+            ->line('Start Date: '.$this->subscription->start_date->format('d M, Y'))
+            ->line('End Date: '.$this->subscription->end_date->format('d M, Y'))
+            ->action('View Subscription', route('candidate.subscriptions.index'))
+            ->line('You can now apply for jobs!');
     }
 
     /**

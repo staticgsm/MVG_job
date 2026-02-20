@@ -29,6 +29,7 @@ class WelcomeEmail extends Notification implements ShouldQueue
         if (\App\Models\Setting::get('notification_welcome_email', '1') !== '1') {
             return [];
         }
+
         return ['mail'];
     }
 
@@ -38,12 +39,12 @@ class WelcomeEmail extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Welcome to (' . config('app.name') . ')')
-                    ->greeting('Hello ' . $notifiable->name . '!')
-                    ->line('Welcome to our job portal! We are excited to have you on board.')
-                    ->line('Please update your profile and subscribe to a plan to start applying for jobs.')
-                    ->action('Complete Profile', route('candidate.profile.index'))
-                    ->line('Thank you for using our application!');
+            ->subject('Welcome to ('.config('app.name').')')
+            ->greeting('Hello '.$notifiable->name.'!')
+            ->line('Welcome to our job portal! We are excited to have you on board.')
+            ->line('Please update your profile and subscribe to a plan to start applying for jobs.')
+            ->action('Complete Profile', route('candidate.profile.index'))
+            ->line('Thank you for using our application!');
     }
 
     /**
