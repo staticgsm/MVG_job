@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Skill;
 use App\Models\EducationCourse;
+use App\Models\Skill;
+use Illuminate\Http\Request;
 
 class MasterDataController extends Controller
 {
@@ -13,6 +13,7 @@ class MasterDataController extends Controller
     {
         $skills = Skill::latest()->paginate(10, ['*'], 'skills_page');
         $courses = EducationCourse::latest()->paginate(10, ['*'], 'courses_page');
+
         return view('admin.master_data.index', compact('skills', 'courses'));
     }
 
@@ -20,7 +21,7 @@ class MasterDataController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:skills,name',
-            'category' => 'nullable|string'
+            'category' => 'nullable|string',
         ]);
 
         Skill::create($request->except('_token'));
@@ -31,6 +32,7 @@ class MasterDataController extends Controller
     public function destroySkill(Skill $skill)
     {
         $skill->delete();
+
         return redirect()->back()->with('success', 'Skill deleted successfully.');
     }
 
@@ -38,7 +40,7 @@ class MasterDataController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:education_courses,name',
-            'type' => 'nullable|string'
+            'type' => 'nullable|string',
         ]);
 
         EducationCourse::create($request->except('_token'));
@@ -49,6 +51,7 @@ class MasterDataController extends Controller
     public function destroyEducation(EducationCourse $course)
     {
         $course->delete();
+
         return redirect()->back()->with('success', 'Education course deleted successfully.');
     }
 }

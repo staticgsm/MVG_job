@@ -28,7 +28,7 @@ class ApplicationStatusChanged extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        // Maybe distinct toggle for status changes? For now, we can group it or leave it always on. 
+        // Maybe distinct toggle for status changes? For now, we can group it or leave it always on.
         // Let's assume it shares 'job_application_submitted' OR has no toggle yet.
         // I'll leave it always on for now as status changes are critical.
         // Actually, user didn't ask for a toggle for this specific one, but good to have.
@@ -42,13 +42,13 @@ class ApplicationStatusChanged extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Application Status Update: ' . $this->application->jobPost->title)
-                    ->greeting('Hello, ' . $notifiable->name)
-                    ->line('The status of your application for "' . $this->application->jobPost->title . '" has changed.')
-                    ->line('New Status: **' . ucfirst($this->application->status) . '**')
-                    ->line('Remarks: ' . ($this->application->remarks ?? 'N/A'))
-                    ->action('Check Status', route('candidate.applications.index'))
-                    ->line('Thank you for your patience.');
+            ->subject('Application Status Update: '.$this->application->jobPost->title)
+            ->greeting('Hello, '.$notifiable->name)
+            ->line('The status of your application for "'.$this->application->jobPost->title.'" has changed.')
+            ->line('New Status: **'.ucfirst($this->application->status).'**')
+            ->line('Remarks: '.($this->application->remarks ?? 'N/A'))
+            ->action('Check Status', route('candidate.applications.index'))
+            ->line('Thank you for your patience.');
     }
 
     /**

@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class JobPost extends Model
 {
@@ -35,10 +34,10 @@ class JobPost extends Model
         static::creating(function ($job) {
             if (empty($job->job_code)) {
                 $year = date('y'); // e.g., 26
-                $prefix = 'MVG-J' . $year;
+                $prefix = 'MVG-J'.$year;
 
                 // Find last job code with this prefix
-                $lastJob = self::where('job_code', 'like', $prefix . '%')
+                $lastJob = self::where('job_code', 'like', $prefix.'%')
                     ->orderBy('id', 'desc')
                     ->first();
 
@@ -53,7 +52,7 @@ class JobPost extends Model
                     $newSequence = 1;
                 }
 
-                $job->job_code = $prefix . str_pad($newSequence, 2, '0', STR_PAD_LEFT);
+                $job->job_code = $prefix.str_pad($newSequence, 2, '0', STR_PAD_LEFT);
             }
         });
     }

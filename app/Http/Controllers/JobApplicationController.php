@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\JobPost;
 use App\Models\JobApplication;
+use App\Models\JobPost;
+use Illuminate\Http\Request;
 
 class JobApplicationController extends Controller
 {
@@ -13,7 +13,7 @@ class JobApplicationController extends Controller
         $user = auth()->user();
 
         // 1. Check if user is a candidate
-        if (!$user->hasRole('candidate')) {
+        if (! $user->hasRole('candidate')) {
             return redirect()->back()->with('error', 'Only candidates can apply for jobs.');
         }
 
@@ -48,6 +48,7 @@ class JobApplicationController extends Controller
     public function candidateIndex()
     {
         $applications = auth()->user()->jobApplications()->with('jobPost')->latest()->get();
+
         return view('candidate.applications.index', compact('applications'));
     }
 

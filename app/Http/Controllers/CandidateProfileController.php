@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\CandidateProfile;
-use App\Models\CandidateEducation;
-use App\Models\CandidateExperience;
-use App\Models\CandidateSkill;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class CandidateProfileController extends Controller
 {
     public function show()
     {
         $user = auth()->user();
-        $profile = $user->candidateProfile ?? new CandidateProfile();
+        $profile = $user->candidateProfile ?? new CandidateProfile;
         $educations = $user->candidateEducations;
         $experiences = $user->candidateExperiences;
         $skills = $user->candidateSkills;
@@ -76,19 +72,19 @@ class CandidateProfileController extends Controller
         $data = [];
 
         if ($request->hasFile('aadhaar_doc')) {
-            $data['aadhaar_doc_path'] = $request->file('aadhaar_doc')->store('documents', 'public');
+            $data['aadhaar_doc_path'] = $request->file('aadhaar_doc')->store('documents');
         }
         if ($request->hasFile('education_doc')) {
-            $data['education_doc_path'] = $request->file('education_doc')->store('documents', 'public');
+            $data['education_doc_path'] = $request->file('education_doc')->store('documents');
         }
         if ($request->hasFile('bank_doc')) {
-            $data['bank_doc_path'] = $request->file('bank_doc')->store('documents', 'public');
+            $data['bank_doc_path'] = $request->file('bank_doc')->store('documents');
         }
         if ($request->hasFile('resume')) {
-            $data['resume_path'] = $request->file('resume')->store('resumes', 'public');
+            $data['resume_path'] = $request->file('resume')->store('resumes');
         }
 
-        if (!empty($data)) {
+        if (! empty($data)) {
             $user->candidateProfile()->updateOrCreate(
                 ['user_id' => $user->id],
                 $data
@@ -109,11 +105,11 @@ class CandidateProfileController extends Controller
             'institute_name.*' => 'required|string',
             'university_board.*' => 'required|string',
             'marks_percentage.*' => 'required|string',
-            'passing_year.*' => 'required|integer|digits:4|min:1901|max:' . (date('Y') + 10),
+            'passing_year.*' => 'required|integer|digits:4|min:1901|max:'.(date('Y') + 10),
         ]);
 
         $user = auth()->user();
-        
+
         // Save Highest Education
         $user->candidateProfile()->updateOrCreate(
             ['user_id' => $user->id],
@@ -149,7 +145,7 @@ class CandidateProfileController extends Controller
         ];
 
         // Only validate work history if NOT "No Experience"
-        if (!$request->has('has_no_experience')) {
+        if (! $request->has('has_no_experience')) {
             $rules['company_name.*'] = 'required|string';
             $rules['designation.*'] = 'required|string';
             $rules['employment_type.*'] = 'required|string';
@@ -170,7 +166,7 @@ class CandidateProfileController extends Controller
         // Update Work History
         $user->candidateExperiences()->delete();
 
-        if (!$request->has('has_no_experience') && $request->has('company_name')) {
+        if (! $request->has('has_no_experience') && $request->has('company_name')) {
             foreach ($request->company_name as $key => $value) {
                 $user->candidateExperiences()->create([
                     'company_name' => $request->company_name[$key],
@@ -225,7 +221,7 @@ class CandidateProfileController extends Controller
 
         if ($request->file('resume')) {
             $path = $request->file('resume')->store('resumes'); // Default disk (usually local or public)
-            
+
             $user->candidateProfile()->updateOrCreate(
                 ['user_id' => $user->id],
                 ['resume_path' => $path]

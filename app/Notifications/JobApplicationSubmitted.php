@@ -31,6 +31,7 @@ class JobApplicationSubmitted extends Notification implements ShouldQueue
         if (\App\Models\Setting::get('notification_job_application_submitted', '1') !== '1') {
             return [];
         }
+
         return ['mail'];
     }
 
@@ -40,12 +41,12 @@ class JobApplicationSubmitted extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Application Received: ' . $this->application->jobPost->title)
-                    ->greeting('Hello, ' . $notifiable->name)
-                    ->line('Your application for the position of "' . $this->application->jobPost->title . '" at ' . $this->application->jobPost->company_name . ' has been received.')
-                    ->line('We have forwarded your profile to the HR team.')
-                    ->action('View My Applications', route('candidate.applications.index'))
-                    ->line('Good luck!');
+            ->subject('Application Received: '.$this->application->jobPost->title)
+            ->greeting('Hello, '.$notifiable->name)
+            ->line('Your application for the position of "'.$this->application->jobPost->title.'" at '.$this->application->jobPost->company_name.' has been received.')
+            ->line('We have forwarded your profile to the HR team.')
+            ->action('View My Applications', route('candidate.applications.index'))
+            ->line('Good luck!');
     }
 
     /**

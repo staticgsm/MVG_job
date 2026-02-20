@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AdminFeaturesPermissionSeeder extends Seeder
@@ -18,7 +17,7 @@ class AdminFeaturesPermissionSeeder extends Seeder
             ['name' => 'Create Candidates', 'slug' => 'candidate.create', 'description' => 'Can create candidates'],
             ['name' => 'Edit Candidates', 'slug' => 'candidate.edit', 'description' => 'Can edit candidates'],
             ['name' => 'Delete Candidates', 'slug' => 'candidate.delete', 'description' => 'Can delete candidates'],
-            
+
             // Subscription Management
             ['name' => 'View Subscription Plans', 'slug' => 'subscription_plan.view', 'description' => 'Can view subscription plans'],
             ['name' => 'Create Subscription Plans', 'slug' => 'subscription_plan.create', 'description' => 'Can create subscription plans'],

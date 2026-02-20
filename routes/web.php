@@ -38,10 +38,10 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(fu
 // Admin Dashboard
 Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'admin'])->name('dashboard');
-    
+
     // Candidate Management
     Route::resource('candidates', App\Http\Controllers\Admin\CandidateController::class);
-    
+
     // Subscription Plan Management
     Route::resource('subscription-plans', App\Http\Controllers\Admin\SubscriptionPlanController::class);
 
@@ -68,7 +68,7 @@ Route::post('/jobs/{job}/apply', [App\Http\Controllers\JobApplicationController:
 
 // Candidate Routes
 Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candidate.')->group(function () {
-    
+
     // Public to Candidate (Subscriptions)
     Route::get('/subscriptions', [App\Http\Controllers\SubscriptionController::class, 'index'])->name('subscriptions.index');
     Route::post('/subscriptions/{plan}/initiate', [App\Http\Controllers\SubscriptionController::class, 'initiate'])->name('subscriptions.initiate');
@@ -81,7 +81,7 @@ Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candid
         Route::post('/profile/experience', [App\Http\Controllers\CandidateProfileController::class, 'updateExperience'])->name('profile.updateExperience');
         Route::post('/profile/skills', [App\Http\Controllers\CandidateProfileController::class, 'updateSkills'])->name('profile.updateSkills');
         Route::post('/profile/documents', [App\Http\Controllers\CandidateProfileController::class, 'updateDocuments'])->name('profile.updateDocuments');
-        
+
         // Applications
         Route::get('/applications', [App\Http\Controllers\JobApplicationController::class, 'candidateIndex'])->name('applications.index');
         Route::delete('/applications/{application}', [App\Http\Controllers\JobApplicationController::class, 'destroy'])->name('applications.destroy');
@@ -92,7 +92,7 @@ Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candid
 Route::post('/payment/response', [App\Http\Controllers\PaymentController::class, 'response'])->name('payment.response'); // Allow CSRF exemption or middleware
 
 // Redirect /profile to /candidate/profile
-Route::get('/profile', function() {
+Route::get('/profile', function () {
     return redirect()->route('candidate.profile.index');
 })->middleware(['auth', 'role:candidate']);
 
@@ -108,7 +108,7 @@ Route::middleware(['auth', 'role:hr,super_admin'])->prefix('hr')->group(function
 // Accountant Dashboard
 Route::middleware(['auth', 'role:accountant,super_admin'])->prefix('accountant')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'accountant'])->name('accountant.dashboard');
-    
+
     // Payment Export
     Route::get('/payments/export', [App\Http\Controllers\DashboardController::class, 'exportPayments'])->name('accountant.payments.export');
 });

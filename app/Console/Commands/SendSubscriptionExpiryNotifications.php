@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 class SendSubscriptionExpiryNotifications extends Command
 {
     protected $signature = 'subscriptions:notify-expiry';
+
     protected $description = 'Notify users whose subscriptions are expiring in 3 days';
 
     public function handle()

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('job_posts', function (Blueprint $table) {
-            if (!Schema::hasColumn('job_posts', 'deadline_date')) {
+            if (! Schema::hasColumn('job_posts', 'deadline_date')) {
                 $table->date('deadline_date')->nullable()->after('status');
             }
         });
