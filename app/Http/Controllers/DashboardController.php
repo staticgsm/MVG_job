@@ -16,11 +16,18 @@ class DashboardController extends Controller
             'users_count' => User::count(),
             'jobs_count' => JobPost::count(),
             'applications_count' => JobApplication::count(),
-            'total_revenue' => Payment::where('status', 'success')->sum('amount'), // Assuming 'amount' is column? Wait, verify schema.
-            // Wait, payments table structure check needed.
+            'total_revenue' => Payment::where('status', 'success')->sum('amount'),
+            'admin_count' => User::whereHas('role', function ($q) {
+                $q->where('slug', 'admin');
+            })->count(),
+            'hr_count' => User::whereHas('role', function ($q) {
+                $q->where('slug', 'hr');
+            })->count(),
         ];
 
-        return view('super_admin.dashboard', compact('stats'));
+        $recentUsers = User::with('role')->latest()->take(5)->get();
+
+        return view('super_admin.dashboard', compact('stats', 'recentUsers'));
     }
 
     public function admin()
@@ -56,6 +63,25 @@ class DashboardController extends Controller
         ];
 
         return view('accountant.dashboard', compact('stats'));
+    }
+
+    public function candidate()
+    {
+        $user = auth()->user();
+        $user->load(['candidateProfile', 'jobApplications.jobPost']);
+        
+        $stats = [
+            'applied_jobs_count' => $user->jobApplications->count(),
+            'profile_completion' => $user->candidateProfile->profile_completion_percentage ?? 0,
+            'recent_applications' => $user->jobApplications()->latest()->take(5)->get(),
+        ];
+
+        $recommendedJobs = JobPost::where('status', 'open')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('candidate.dashboard', compact('user', 'stats', 'recommendedJobs'));
     }
 
     public function exportPayments()

@@ -74,7 +74,13 @@
                                 <a href="tel:+917720007466" class="widget-text text-white-hover">+91 7720007466</a>
                             </div>
                         </div>
-                        <div class="header-button"><a href="{{ route('frontend.contact') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded">Get a quote</a></div>
+                        <div class="header-button">
+                            @guest
+                                <a href="{{ route('login') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded">Login</a>
+                            @else
+                                <a href="{{ route('home') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded">Dashboard</a>
+                            @endguest
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,6 +161,9 @@
     <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vendors.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
     @yield('extra_js')
 </body>
 </html>

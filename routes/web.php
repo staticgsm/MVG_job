@@ -88,6 +88,7 @@ Route::post('/jobs/{job}/apply', [App\Http\Controllers\JobApplicationController:
 
 // Candidate Routes
 Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candidate.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'candidate'])->name('dashboard');
 
     // Public to Candidate (Subscriptions)
     Route::get('/subscriptions', [App\Http\Controllers\SubscriptionController::class, 'index'])->name('subscriptions.index');
