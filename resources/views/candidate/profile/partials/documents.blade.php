@@ -60,5 +60,5 @@
     </div>
 
     <hr>
-    <button type="submit" class="btn btn-primary">Save & Upload Documents</button>
+    <button type="submit" class="btn btn-profile-save w-100 mt-4">Save & Complete Profile</button>
 </form>

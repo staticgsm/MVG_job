@@ -68,20 +68,37 @@ class DashboardController extends Controller
     public function candidate()
     {
         $user = auth()->user();
-        $user->load(['candidateProfile', 'jobApplications.jobPost']);
+        $user->load(['candidateProfile', 'jobApplications.jobPost', 'subscription.subscriptionPlan', 'candidateEducations', 'candidateExperiences', 'candidateSkills']);
         
         $stats = [
             'applied_jobs_count' => $user->jobApplications->count(),
+            'shortlisted_count' => $user->jobApplications->where('status', 'Shortlisted')->count(),
+            'rejected_count' => $user->jobApplications->where('status', 'Rejected')->count(),
+            'pending_count' => $user->jobApplications->where('status', 'Applied')->count(),
             'profile_completion' => $user->candidateProfile->profile_completion_percentage ?? 0,
             'recent_applications' => $user->jobApplications()->latest()->take(5)->get(),
         ];
 
-        $recommendedJobs = JobPost::where('status', 'open')
-            ->latest()
-            ->take(3)
-            ->get();
+        $missingItems = [];
+        if (!($user->candidateProfile && $user->candidateProfile->first_name && $user->candidateProfile->phone)) {
+            $missingItems[] = ['label' => 'Personal Details', 'tab' => 'personal'];
+        }
+        if ($user->candidateEducations()->count() === 0) {
+            $missingItems[] = ['label' => 'Education History', 'tab' => 'education'];
+        }
+        if ($user->candidateExperiences()->count() === 0 && !($user->candidateProfile->has_no_experience ?? false)) {
+            $missingItems[] = ['label' => 'Work Experience (or mark as Fresher)', 'tab' => 'experience'];
+        }
+        if ($user->candidateSkills()->count() === 0) {
+            $missingItems[] = ['label' => 'Skills', 'tab' => 'skills'];
+        }
+        if (!($user->candidateProfile && $user->candidateProfile->resume_path)) {
+            $missingItems[] = ['label' => 'Resume / CV', 'tab' => 'documents'];
+        }
 
-        return view('candidate.dashboard', compact('user', 'stats', 'recommendedJobs'));
+        $recommendedJobs = JobPost::where('status', 'open')->latest()->take(5)->get();
+
+        return view('candidate.dashboard', compact('user', 'stats', 'recommendedJobs', 'missingItems'));
     }
 
     public function exportPayments()

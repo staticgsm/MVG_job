@@ -33,7 +33,7 @@
     </div>
     
     <button type="button" class="btn btn-secondary mb-3" id="addSkill">Add Skill</button>
-    <button type="submit" class="btn btn-primary mb-3">Save Skills</button>
+    <button type="submit" class="btn btn-profile-save w-100 mt-3">Save Skills & Continue</button>
 </form>
 
 <script>

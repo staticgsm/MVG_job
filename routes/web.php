@@ -87,26 +87,24 @@ Route::get('/jobs/{job}', [App\Http\Controllers\PublicJobController::class, 'sho
 Route::post('/jobs/{job}/apply', [App\Http\Controllers\JobApplicationController::class, 'store'])->name('jobs.apply')->middleware(['auth', 'role:candidate', 'subscribed']);
 
 // Candidate Routes
-Route::middleware(['auth', 'role:candidate'])->prefix('candidate')->name('candidate.')->group(function () {
+Route::middleware(['auth', 'role:candidate', 'onboarding'])->prefix('candidate')->name('candidate.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'candidate'])->name('dashboard');
 
     // Public to Candidate (Subscriptions)
     Route::get('/subscriptions', [App\Http\Controllers\SubscriptionController::class, 'index'])->name('subscriptions.index');
     Route::post('/subscriptions/{plan}/initiate', [App\Http\Controllers\SubscriptionController::class, 'initiate'])->name('subscriptions.initiate');
 
-    // Protected by Subscription (Profile & Applications)
-    Route::middleware(['subscribed'])->group(function () {
-        Route::get('/profile', [App\Http\Controllers\CandidateProfileController::class, 'show'])->name('profile.index');
-        Route::post('/profile/personal', [App\Http\Controllers\CandidateProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
-        Route::post('/profile/education', [App\Http\Controllers\CandidateProfileController::class, 'updateEducation'])->name('profile.updateEducation');
-        Route::post('/profile/experience', [App\Http\Controllers\CandidateProfileController::class, 'updateExperience'])->name('profile.updateExperience');
-        Route::post('/profile/skills', [App\Http\Controllers\CandidateProfileController::class, 'updateSkills'])->name('profile.updateSkills');
-        Route::post('/profile/documents', [App\Http\Controllers\CandidateProfileController::class, 'updateDocuments'])->name('profile.updateDocuments');
+    // Profile (Must be accessible for onboarding)
+    Route::get('/profile', [App\Http\Controllers\CandidateProfileController::class, 'show'])->name('profile.index');
+    Route::post('/profile/personal', [App\Http\Controllers\CandidateProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
+    Route::post('/profile/education', [App\Http\Controllers\CandidateProfileController::class, 'updateEducation'])->name('profile.updateEducation');
+    Route::post('/profile/experience', [App\Http\Controllers\CandidateProfileController::class, 'updateExperience'])->name('profile.updateExperience');
+    Route::post('/profile/skills', [App\Http\Controllers\CandidateProfileController::class, 'updateSkills'])->name('profile.updateSkills');
+    Route::post('/profile/documents', [App\Http\Controllers\CandidateProfileController::class, 'updateDocuments'])->name('profile.updateDocuments');
 
-        // Applications
-        Route::get('/applications', [App\Http\Controllers\JobApplicationController::class, 'candidateIndex'])->name('applications.index');
-        Route::delete('/applications/{application}', [App\Http\Controllers\JobApplicationController::class, 'destroy'])->name('applications.destroy');
-    });
+    // Applications (Now accessible without active subscription to view history)
+    Route::get('/applications', [App\Http\Controllers\JobApplicationController::class, 'candidateIndex'])->name('applications.index');
+    Route::delete('/applications/{application}', [App\Http\Controllers\JobApplicationController::class, 'destroy'])->name('applications.destroy');
 });
 
 // PayU Response (POST from Gateway)

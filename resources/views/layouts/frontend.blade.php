@@ -44,6 +44,7 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav alt-font">
                             <li class="nav-item"><a href="{{ route('frontend.home') }}" class="nav-link">Home</a></li>
+                            <li class="nav-item"><a href="{{ route('public.jobs.index') }}" class="nav-link">Jobs</a></li>
                             <li class="nav-item"><a href="{{ route('frontend.about') }}" class="nav-link">About</a></li>
                             <li class="nav-item dropdown dropdown-with-icon-style02">
                                 <a href="{{ route('frontend.services') }}" class="nav-link">Services</a>
@@ -78,7 +79,7 @@
                             @guest
                                 <a href="{{ route('login') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded">Login</a>
                             @else
-                                <a href="{{ route('home') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded">Dashboard</a>
+                                <a href="{{ route('home') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded fw-600">{{ auth()->user()->name }}</a>
                             @endguest
                         </div>
                     </div>

@@ -26,6 +26,7 @@ class JobPostController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'website' => 'nullable|url|max:255',
             'project_name' => 'nullable|string|max:255',
             'department' => 'required|string|max:255',
             'location' => 'required|string|max:255',
@@ -59,6 +60,7 @@ class JobPostController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'website' => 'nullable|url|max:255',
             'project_name' => 'nullable|string|max:255',
             'department' => 'required|string|max:255',
             'location' => 'required|string|max:255',

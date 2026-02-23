@@ -8,7 +8,7 @@
         </div>
         
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="has_no_experience" id="has_no_experience" value="1">
+            <input class="form-check-input" type="checkbox" name="has_no_experience" id="has_no_experience" value="1" {{ old('has_no_experience', $profile->has_no_experience ?? false) ? 'checked' : '' }}>
             <label class="form-check-label" for="has_no_experience">
                 I do not have any work experience (Fresher)
             </label>
@@ -60,7 +60,7 @@
     </div> <!-- End experience-section -->
     
     <button type="button" class="btn btn-secondary mb-3" id="addExperience">Add Experience</button>
-    <button type="submit" class="btn btn-primary mb-3">Save Experience Details</button>
+    <button type="submit" class="btn btn-profile-save w-100 mt-3">Save Experience Details & Continue</button>
 </form>
 
 <script>

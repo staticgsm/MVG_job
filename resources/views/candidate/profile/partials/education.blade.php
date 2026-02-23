@@ -63,7 +63,7 @@
     </div>
     
     <button type="button" class="btn btn-secondary mb-3" id="addEducation">Add Education</button>
-    <button type="submit" class="btn btn-primary mb-3">Save Education Details</button>
+    <button type="submit" class="btn btn-profile-save w-100 mt-3">Save Education Details & Continue</button>
 </form>
 
 <script>

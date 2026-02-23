@@ -98,5 +98,5 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Save Personal Details</button>
+    <button type="submit" class="btn btn-profile-save w-100 mt-4">Save Personal Details & Continue</button>
 </form>

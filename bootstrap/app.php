@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'permission' => \App\Http\Middleware\PermissionMiddleware::class,
             'subscribed' => \App\Http\Middleware\EnsureSubscription::class,
+            'onboarding' => \App\Http\Middleware\CandidateOnboarding::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [

@@ -28,6 +28,11 @@
                         @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6 mb-4">
+                        <label for="website" class="form-label">Company Website (Optional)</label>
+                        <input type="url" class="form-control @error('website') is-invalid @enderror" id="website" name="website" value="{{ old('website') }}" placeholder="e.g. https://example.com">
+                        @error('website') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-6 mb-4">
                         <label for="project_name" class="form-label">Project Name</label>
                         <input type="text" class="form-control @error('project_name') is-invalid @enderror" id="project_name" name="project_name" value="{{ old('project_name') }}" placeholder="Enter project name if applicable">
                         @error('project_name') <div class="invalid-feedback">{{ $message }}</div> @enderror

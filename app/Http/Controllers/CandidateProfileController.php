@@ -56,7 +56,7 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->back()->with('success', 'Personal details updated successfully.');
+        return redirect()->route('candidate.profile.index', ['active_tab' => 'education'])->with('success', 'Personal details updated successfully. Continue to Education.');
     }
 
     public function updateDocuments(Request $request)
@@ -93,7 +93,7 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->back()->with('success', 'Documents uploaded successfully.');
+        return redirect()->route('candidate.dashboard')->with('success', 'Documents uploaded successfully. Your profile is now complete!');
     }
 
     public function updateEducation(Request $request)
@@ -134,7 +134,7 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->back()->with('success', 'Education details updated successfully.');
+        return redirect()->route('candidate.profile.index', ['active_tab' => 'experience'])->with('success', 'Education details updated successfully. Continue to Experience.');
     }
 
     public function updateExperience(Request $request)
@@ -160,7 +160,10 @@ class CandidateProfileController extends Controller
         // Save Experience Summary inside Candidate Profile
         $user->candidateProfile()->updateOrCreate(
             ['user_id' => $user->id],
-            ['experience' => $request->experience]
+            [
+                'experience' => $request->experience,
+                'has_no_experience' => $request->has('has_no_experience') ? 1 : 0
+            ]
         );
 
         // Update Work History
@@ -182,7 +185,7 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->back()->with('success', 'Experience details updated successfully.');
+        return redirect()->route('candidate.profile.index', ['active_tab' => 'skills'])->with('success', 'Experience details updated successfully. Continue to Skills.');
     }
 
     public function updateSkills(Request $request)
@@ -208,7 +211,7 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->back()->with('success', 'Skills updated successfully.');
+        return redirect()->route('candidate.profile.index', ['active_tab' => 'documents'])->with('success', 'Skills updated successfully. Final step: Upload Documents.');
     }
 
     public function uploadResume(Request $request)
@@ -248,8 +251,8 @@ class CandidateProfileController extends Controller
             $percentage += 20;
         }
 
-        // Experience (Weight: 10%) - Optional but adds to profile
-        if ($user->candidateExperiences()->count() > 0) {
+        // Experience (Weight: 10%)
+        if ($user->candidateExperiences()->count() > 0 || ($user->candidateProfile->has_no_experience ?? false)) {
             $percentage += 10;
         }
 
