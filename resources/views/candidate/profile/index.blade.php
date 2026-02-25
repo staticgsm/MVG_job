@@ -81,6 +81,33 @@
                         </div>
                     </div>
 
+                    {{-- Completion Checklist --}}
+                    <div class="completion-checklist text-start mt-3 mb-4" style="background:#f8fafc; padding:15px; border-radius:12px; border:1px solid #e2e8f0;">
+                        <span class="d-block mb-2 fw-bold" style="font-size:13px; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Checklist</span>
+                        <ul class="list-unstyled mb-0" style="font-size:13px;">
+                            <li class="mb-1 d-flex align-items-center">
+                                <i class="bi {{ $profile->first_name && $profile->phone ? 'bi-check-circle-fill text-success' : 'bi-circle text-muted' }} me-2"></i>
+                                <span class="{{ $profile->first_name && $profile->phone ? '' : 'text-muted' }}">Personal Details</span>
+                            </li>
+                            <li class="mb-1 d-flex align-items-center">
+                                <i class="bi {{ $educations->count() > 0 ? 'bi-check-circle-fill text-success' : 'bi-circle text-muted' }} me-2"></i>
+                                <span class="{{ $educations->count() > 0 ? '' : 'text-muted' }}">Education</span>
+                            </li>
+                            <li class="mb-1 d-flex align-items-center">
+                                <i class="bi {{ $skills->count() > 0 ? 'bi-check-circle-fill text-success' : 'bi-circle text-muted' }} me-2"></i>
+                                <span class="{{ $skills->count() > 0 ? '' : 'text-muted' }}">Skills</span>
+                            </li>
+                            <li class="mb-1 d-flex align-items-center">
+                                <i class="bi {{ ($experiences->count() > 0 || ($profile->has_no_experience ?? false)) ? 'bi-check-circle-fill text-success' : 'bi-circle text-muted' }} me-2"></i>
+                                <span class="{{ ($experiences->count() > 0 || ($profile->has_no_experience ?? false)) ? '' : 'text-muted' }}">Experience</span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="bi {{ $profile->resume_path ? 'bi-check-circle-fill text-success' : 'bi-circle text-muted' }} me-2"></i>
+                                <span class="{{ $profile->resume_path ? '' : 'text-muted' }}">Resume Document</span>
+                            </li>
+                        </ul>
+                    </div>
+
                     <nav class="cd-nav text-start">
                         <a href="{{ route('candidate.dashboard') }}">
                             <i class="bi bi-grid-fill"></i> Dashboard
@@ -129,6 +156,15 @@
 
                     {{-- Alerts --}}
                     <div style="padding: 20px 28px 0;">
+                        @if($errors->any())
+                            <div class="alert alert-danger rounded-3 border-0 shadow-sm mb-0">
+                                <ul class="mb-0">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         @if(session('success'))
                             <div class="alert alert-success rounded-3 border-0 shadow-sm mb-0">
                                 <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
@@ -146,8 +182,9 @@
                         <div class="profile-tabs" id="profileTabs" role="tablist">
                             <button class="profile-tab-btn active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Personal Details</button>
                             <button class="profile-tab-btn" id="education-tab" data-bs-toggle="tab" data-bs-target="#education" type="button" role="tab">Education</button>
-                            <button class="profile-tab-btn" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience" type="button" role="tab">Experience</button>
                             <button class="profile-tab-btn" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills" type="button" role="tab">Skills</button>
+                            <button class="profile-tab-btn" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience" type="button" role="tab"
+                                    style="{{ ($profile->worker_type ?? '') == 'Unskilled' ? 'display:none;' : '' }}">Experience</button>
                             <button class="profile-tab-btn" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab">Documents</button>
                         </div>
 
@@ -158,11 +195,11 @@
                             <div class="tab-pane fade" id="education" role="tabpanel">
                                 @include('candidate.profile.partials.education')
                             </div>
+                             <div class="tab-pane fade" id="skills" role="tabpanel">
+                                @include('candidate.profile.partials.skills')
+                            </div>
                             <div class="tab-pane fade" id="experience" role="tabpanel">
                                 @include('candidate.profile.partials.experience')
-                            </div>
-                            <div class="tab-pane fade" id="skills" role="tabpanel">
-                                @include('candidate.profile.partials.skills')
                             </div>
                             <div class="tab-pane fade" id="documents" role="tabpanel">
                                 @include('candidate.profile.partials.documents')
@@ -183,12 +220,31 @@ document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const activeTab = urlParams.get('active_tab');
     if (activeTab) {
-        const tabEl = document.querySelector('#' + activeTab + '-tab');
-        if (tabEl) {
-            const tab = new bootstrap.Tab(tabEl);
-            tab.show();
-            tabEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const tabBtn = document.querySelector('#' + activeTab + '-tab');
+        if (tabBtn) {
+            if (window.bootstrap && bootstrap.Tab) {
+                const tab = new bootstrap.Tab(tabBtn);
+                tab.show();
+            } else if (typeof jQuery !== 'undefined') {
+                $(tabBtn).tab('show');
+            } else {
+                tabBtn.click();
+            }
+            tabBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+    }
+
+    // Handle Worker Type dynamic changes - ALWAYS ATTACH
+    const workerTypeSelect = document.getElementById('worker_type_select');
+    const experienceTab = document.getElementById('experience-tab');
+    if (workerTypeSelect && experienceTab) {
+        workerTypeSelect.addEventListener('change', function() {
+            if (this.value === 'Unskilled') {
+                experienceTab.style.display = 'none';
+            } else {
+                experienceTab.style.display = 'block';
+            }
+        });
     }
 });
 </script>

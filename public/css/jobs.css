@@ -10,8 +10,10 @@
 }
 
 .jobs-hero {
-    background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-    padding: 100px 0 150px 0;
+    background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1920');
+    background-size: cover;
+    background-position: center;
+    padding: 120px 0 160px 0;
     position: relative;
     overflow: hidden;
     color: white;

@@ -36,6 +36,9 @@
                             </td>
                             <td class="text-end">
                                 <div class="btn-group shadow-sm border-0 rounded">
+                                    <a href="{{ route('roles.permissions', $role) }}" class="btn btn-white btn-sm" title="Manage Permissions">
+                                        <i class="bi bi-shield-check text-success"></i>
+                                    </a>
                                     <a href="{{ route('roles.edit', $role) }}" class="btn btn-white btn-sm" title="Edit Role">
                                         <i class="bi bi-pencil-square text-primary"></i>
                                     </a>

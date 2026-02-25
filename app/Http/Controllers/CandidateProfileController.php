@@ -32,6 +32,7 @@ class CandidateProfileController extends Controller
             'category' => 'required|string',
             'phone' => 'required|string|max:20',
             'aadhaar_no' => 'required|string|max:20',
+            'worker_type' => 'required|string|in:Skilled,Unskilled',
             'address' => 'required|string',
             'district' => 'required|string|max:255',
             'taluka' => 'required|string|max:255',
@@ -63,8 +64,6 @@ class CandidateProfileController extends Controller
     {
         $request->validate([
             'aadhaar_doc' => 'nullable|mimes:pdf|max:2048',
-            'education_doc' => 'nullable|mimes:pdf|max:2048',
-            'bank_doc' => 'nullable|mimes:pdf|max:2048',
             'resume' => 'nullable|mimes:pdf|max:2048',
         ]);
 
@@ -73,12 +72,6 @@ class CandidateProfileController extends Controller
 
         if ($request->hasFile('aadhaar_doc')) {
             $data['aadhaar_doc_path'] = $request->file('aadhaar_doc')->store('documents');
-        }
-        if ($request->hasFile('education_doc')) {
-            $data['education_doc_path'] = $request->file('education_doc')->store('documents');
-        }
-        if ($request->hasFile('bank_doc')) {
-            $data['bank_doc_path'] = $request->file('bank_doc')->store('documents');
         }
         if ($request->hasFile('resume')) {
             $data['resume_path'] = $request->file('resume')->store('resumes');
@@ -134,7 +127,7 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->route('candidate.profile.index', ['active_tab' => 'experience'])->with('success', 'Education details updated successfully. Continue to Experience.');
+        return redirect()->route('candidate.profile.index', ['active_tab' => 'skills'])->with('success', 'Education details updated successfully. Continue to Skills.');
     }
 
     public function updateExperience(Request $request)
@@ -161,7 +154,7 @@ class CandidateProfileController extends Controller
         $user->candidateProfile()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'experience' => $request->experience,
+                'experience' => $request->has('has_no_experience') ? null : $request->experience,
                 'has_no_experience' => $request->has('has_no_experience') ? 1 : 0
             ]
         );
@@ -185,7 +178,7 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->route('candidate.profile.index', ['active_tab' => 'skills'])->with('success', 'Experience details updated successfully. Continue to Skills.');
+        return redirect()->route('candidate.profile.index', ['active_tab' => 'documents'])->with('success', 'Experience details updated successfully. Final step: Upload Documents.');
     }
 
     public function updateSkills(Request $request)
@@ -211,7 +204,11 @@ class CandidateProfileController extends Controller
 
         $this->calculateCompletion();
 
-        return redirect()->route('candidate.profile.index', ['active_tab' => 'documents'])->with('success', 'Skills updated successfully. Final step: Upload Documents.');
+        $profile = $user->candidateProfile;
+        $nextTab = ($profile && $profile->worker_type == 'Unskilled') ? 'documents' : 'experience';
+        $msg = ($nextTab == 'documents') ? 'Skills updated successfully. Final step: Upload Documents.' : 'Skills updated successfully. Continue to Experience.';
+
+        return redirect()->route('candidate.profile.index', ['active_tab' => $nextTab])->with('success', $msg);
     }
 
     public function uploadResume(Request $request)
@@ -252,7 +249,8 @@ class CandidateProfileController extends Controller
         }
 
         // Experience (Weight: 10%)
-        if ($user->candidateExperiences()->count() > 0 || ($user->candidateProfile->has_no_experience ?? false)) {
+        $hasExperience = $user->candidateExperiences()->count() > 0 || ($user->candidateProfile->has_no_experience ?? false);
+        if ($hasExperience) {
             $percentage += 10;
         }
 

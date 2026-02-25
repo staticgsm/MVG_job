@@ -41,7 +41,7 @@
                         <div class="col-md-4">
                             <div class="search-input-wrapper">
                                 <i class="bi bi-geo-alt"></i>
-                                <input type="text" name="location_text" value="{{ request('location') }}" placeholder="City or location...">
+                                <input type="text" name="location" value="{{ request('location') }}" placeholder="City or location...">
                             </div>
                         </div>
                         <div class="col-md-3 text-end px-2">

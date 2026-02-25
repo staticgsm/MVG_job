@@ -2,7 +2,7 @@
     @csrf
 
     <div class="mb-4 p-3 bg-light border rounded">
-        <div class="mb-3">
+        <div id="experience_summary_container" class="mb-3">
             <label for="experience" class="form-label fw-bold">Experience Summary</label>
             <textarea class="form-control" name="experience" rows="3" placeholder="Briefly describe your overall experience (e.g. 2 years in teaching)...">{{ old('experience', $profile->experience ?? '') }}</textarea>
         </div>
@@ -60,7 +60,7 @@
     </div> <!-- End experience-section -->
     
     <button type="button" class="btn btn-secondary mb-3" id="addExperience">Add Experience</button>
-    <button type="submit" class="btn btn-profile-save w-100 mt-3">Save Experience Details & Continue</button>
+    <button type="submit" class="btn btn-profile-save w-100 mt-3">Save Experience Details & Continue to Documents</button>
 </form>
 
 <script>
@@ -69,15 +69,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('addExperience');
     const noExpCheckbox = document.getElementById('has_no_experience');
     const experienceSection = document.getElementById('experience-section');
+    const experienceSummaryContainer = document.getElementById('experience_summary_container');
     const saveButton = document.querySelector('#experienceForm button[type="submit"]'); // Adjust selector if needed
 
     function toggleExperienceFields() {
+        const inputs = experienceSection.querySelectorAll('input, select, textarea');
         if (noExpCheckbox.checked) {
             experienceSection.style.display = 'none';
+            if (experienceSummaryContainer) experienceSummaryContainer.style.display = 'none';
             addButton.style.display = 'none';
+            inputs.forEach(input => {
+                input.required = false;
+            });
         } else {
             experienceSection.style.display = 'block';
+            if (experienceSummaryContainer) experienceSummaryContainer.style.display = 'block';
             addButton.style.display = 'inline-block';
+            inputs.forEach(input => {
+                if (input.name !== 'end_date[]' && input.name !== 'job_description[]') {
+                    input.required = true;
+                }
+            });
         }
     }
 

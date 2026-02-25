@@ -20,13 +20,17 @@ class PublicJobController extends Controller
             });
         }
 
-        // Location Filter
+        // Location Filter (Hero search or Sidebar)
         if ($request->filled('location')) {
             $query->where('location', 'like', '%'.$request->location.'%');
+        } elseif ($request->filled('location_text')) {
+            $query->where('location', 'like', '%'.$request->location_text.'%');
         }
 
-        // Job Type Filter
-        if ($request->filled('job_type')) {
+        // Job Type Filter (Array from checkboxes)
+        if ($request->filled('job_types') && is_array($request->job_types)) {
+            $query->whereIn('job_type', $request->job_types);
+        } elseif ($request->filled('job_type')) {
             $query->where('job_type', $request->job_type);
         }
 

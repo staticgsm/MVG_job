@@ -2,13 +2,18 @@
     @csrf
     
     <div class="mb-4">
-        <label class="form-label">Photo (Passport Size)</label>
-        <input type="file" class="form-control" name="photo" accept="image/*">
-        @if($profile->photo_path)
-            <div class="mt-2">
-                <img src="{{ Storage::url($profile->photo_path) }}" alt="Profile Photo" class="img-thumbnail" style="width: 150px;">
+        <label class="form-label fw-600">Photo (Passport Size)</label>
+        <div class="d-flex align-items-center gap-3">
+            @if($profile->photo_path)
+                <div class="flex-shrink-0">
+                    <img src="{{ Storage::url($profile->photo_path) }}" alt="Profile Photo" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                </div>
+            @endif
+            <div class="flex-grow-1">
+                <input type="file" class="form-control" name="photo" accept="image/*">
+                <p class="fs-12 text-medium-gray mt-1 mb-0">Max size: 2MB. Format: JPG, PNG.</p>
             </div>
-        @endif
+        </div>
     </div>
 
     <div class="row">
@@ -52,13 +57,21 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
             <label for="phone" class="form-label">Phone Number</label>
             <input type="text" class="form-control" name="phone" value="{{ old('phone', $profile->phone ?? '') }}" required>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-3">
             <label for="aadhaar_no" class="form-label">Aadhaar Number</label>
             <input type="text" class="form-control" name="aadhaar_no" value="{{ old('aadhaar_no', $profile->aadhaar_no ?? '') }}" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="worker_type" class="form-label">Worker Category</label>
+            <select class="form-select" name="worker_type" id="worker_type_select" required>
+                <option value="">Select Category</option>
+                <option value="Skilled" {{ old('worker_type', $profile->worker_type ?? '') == 'Skilled' ? 'selected' : '' }}>Skilled (has work history)</option>
+                <option value="Unskilled" {{ old('worker_type', $profile->worker_type ?? '') == 'Unskilled' ? 'selected' : '' }}>Unskilled (no experience required)</option>
+            </select>
         </div>
     </div>
 
