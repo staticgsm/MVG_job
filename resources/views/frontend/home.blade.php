@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'MVGC Services Private Limited - Home')
+@section('title', 'MVG Company - Home')
 
 @section('content')
 <!-- start section -->
@@ -18,7 +18,11 @@
                                     <span class="fs-20 opacity-6 mb-25px sm-mb-15px d-inline-block fw-300">Best solutions for your business</span>
                                 </div>
                                 <h1 class="alt-font w-90 xl-w-100 text-shadow-double-large ls-minus-2px">Agency for your <span class="fw-600">great business.</span></h1>
-                                <a href="{{ route('frontend.services') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Get started now<span class="bg-white text-base-color"><i class="fas fa-arrow-right"></i></span></a>
+                                @auth
+                                    <a href="{{ auth()->user()->hasRole('candidate') ? route('candidate.dashboard') : route('home') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Go to Dashboard<span class="bg-white text-base-color"><i class="fas fa-arrow-right"></i></span></a>
+                                @else
+                                    <a href="{{ route('register') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Get started now<span class="bg-white text-base-color"><i class="fas fa-arrow-right"></i></span></a>
+                                @endauth
                             </div>
                         </div>
                         <div class="position-absolute bottom-minus-45px" data-anime='{ "translateY": [150, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'><span class="alt-font number text-base-color opacity-3 fs-190 fw-600 ls-minus-5px">01</span></div>
@@ -37,7 +41,11 @@
                                     <span class="fs-20 opacity-6 mb-25px sm-mb-15px d-inline-block fw-300">Delivering beautiful digital products</span>
                                 </div>
                                 <h1 class="alt-font w-90 xl-w-100 text-shadow-double-large ls-minus-2px">Shape the future of<span class="fw-600"> marketing.</span></h1> 
-                                <a href="{{ route('frontend.services') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Get started now<span class="bg-white text-base-color"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                @auth
+                                    <a href="{{ auth()->user()->hasRole('candidate') ? route('candidate.dashboard') : route('home') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Go to Dashboard<span class="bg-white text-base-color"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                @else
+                                    <a href="{{ route('register') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Get started now<span class="bg-white text-base-color"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                @endauth
                             </div>
                             <div class="position-absolute bottom-minus-45px" data-anime='{ "translateY": [150, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'><span class="alt-font number text-base-color opacity-3 fs-190 fw-600 ls-minus-5px">02</span></div>
                         </div>
@@ -56,7 +64,11 @@
                                     <span class="fs-20 opacity-6 mb-25px sm-mb-15px d-inline-block fw-300">Business strategies and top ideas</span>
                                 </div>
                                 <h1 class="alt-font w-90 xl-w-100 text-shadow-double-large ls-minus-2px">Provide solutions to <span class="fw-600">small business.</span></h1>
-                                <a href="{{ route('frontend.services') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Get started now<span class="bg-white text-base-color"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                @auth
+                                    <a href="{{ auth()->user()->hasRole('candidate') ? route('candidate.dashboard') : route('home') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Go to Dashboard<span class="bg-white text-base-color"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                @else
+                                    <a href="{{ route('register') }}" class="btn btn-extra-large btn-rounded with-rounded btn-base-color btn-box-shadow box-shadow-extra-large mt-20px sm-mt-0">Get started now<span class="bg-white text-base-color"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                @endauth
                             </div>
                             <div class="position-absolute bottom-minus-45px" data-anime='{ "translateY": [150, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'><span class="alt-font number text-base-color opacity-3 fs-190 fw-600 ls-minus-5px">03</span></div>
                         </div>
@@ -136,7 +148,7 @@
             <div class="col-xl-5 col-lg-6 col-md-9 md-mb-50px text-center text-lg-start" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                 <span class="bg-solitude-blue text-uppercase fs-13 ps-25px pe-25px alt-font fw-600 text-base-color lh-40 sm-lh-55 border-radius-100px d-inline-block mb-25px">About business</span>
                 <h3 class="alt-font text-dark-gray fw-600 ls-minus-1px mb-20px sm-w-85 xs-w-100 mx-auto">Smart and effective business solutions.</h3>
-                <p>MVGC Services Private Limited was incorporated in 2018. We offer an array of Facility Management Services including Specialized Mechanized Housekeeping, Skilled and Unskilled Manpower, Security Services, and Vehicle Rental basis.</p>
+                <p>MVG Company was incorporated in 2018. We offer an array of Facility Management Services including Specialized Mechanized Housekeeping, Skilled and Unskilled Manpower, Security Services, and Vehicle Rental basis.</p>
                 <div class="d-flex flex-row justify-content-center justify-content-lg-start align-items-center mt-35px">
                     <div class="w-120px me-25px flex-shrink-0">
                         <div class="chart-percent">
@@ -263,7 +275,15 @@
                                 <p class="opacity-6 w-90 fw-300">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod.</p>
                                 <div class="d-flex align-items-end mt-20px">
                                     <h5 class="text-white mb-0 ls-minus-1px"><span class="fs-16">$</span>19.99 <span class="fs-16 opacity-6 fw-300 ls-0px">/ Monthly</span></h5>
-                                    <a href="{{ route('frontend.contact') }}" class="btn btn-transparent-white-light btn-rounded btn-small ms-auto fw-500 btn-box-shadow">Get started</a>
+                                    @auth
+                                        @if(auth()->user()->hasRole('candidate'))
+                                            <a href="{{ route('candidate.subscriptions.index') }}" class="btn btn-transparent-white-light btn-rounded btn-small ms-auto fw-500 btn-box-shadow">Get started</a>
+                                        @else
+                                            <a href="{{ route('home') }}" class="btn btn-transparent-white-light btn-rounded btn-small ms-auto fw-500 btn-box-shadow">Dashboard</a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('register') }}" class="btn btn-transparent-white-light btn-rounded btn-small ms-auto fw-500 btn-box-shadow">Get started</a>
+                                    @endauth
                                 </div>
                             </div>
                         </div>

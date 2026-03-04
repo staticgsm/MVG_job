@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'My Dashboard — MVGC Services')
+@section('title', 'Candidate Dashboard - MVG Company')
 
 @section('extra_css')
 <link rel="stylesheet" href="{{ asset('css/candidate-dashboard.css') }}">

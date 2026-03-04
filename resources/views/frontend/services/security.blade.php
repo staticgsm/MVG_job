@@ -330,10 +330,10 @@
     <div class="container"> 
         <div class="row align-items-center text-center text-md-start">
             <div class="col sm-mb-20px" data-anime='{ "translateX": [-30, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                <h4 class="alt-font text-dark-gray fw-600 ls-minus-2px m-0">Get a free personal security consultation?</h4>
+                <h4 class="alt-font text-dark-gray fw-600 ls-minus-2px m-0">Security Services?</h4>
             </div>
             <div class="col-12 col-md-auto" data-anime='{ "translateX": [30, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                <a href="{{ route('frontend.contact') }}" class="btn btn-large btn-dark-gray btn-box-shadow btn-rounded left-icon"><i class="feather icon-feather-mail"></i>Free consultation</a>
+                <a href="{{ route('frontend.contact') }}" class="btn btn-large btn-dark-gray btn-box-shadow btn-rounded left-icon"><i class="feather icon-feather-mail"></i>Contact Us</a>
             </div>
         </div>
     </div>

@@ -31,7 +31,8 @@ class CandidateProfileController extends Controller
             'gender' => 'required|string',
             'category' => 'required|string',
             'phone' => 'required|string|max:20',
-            'aadhaar_no' => 'required|string|max:20',
+            'aadhaar_no' => 'required|string|max:14',
+            'pan_no' => 'nullable|string|max:10',
             'worker_type' => 'required|string|in:Skilled,Unskilled',
             'address' => 'required|string',
             'district' => 'required|string|max:255',
@@ -64,6 +65,7 @@ class CandidateProfileController extends Controller
     {
         $request->validate([
             'aadhaar_doc' => 'nullable|mimes:pdf|max:2048',
+            'pan_card' => 'nullable|mimes:pdf|max:2048',
             'resume' => 'nullable|mimes:pdf|max:2048',
         ]);
 
@@ -72,6 +74,9 @@ class CandidateProfileController extends Controller
 
         if ($request->hasFile('aadhaar_doc')) {
             $data['aadhaar_doc_path'] = $request->file('aadhaar_doc')->store('documents');
+        }
+        if ($request->hasFile('pan_card')) {
+            $data['pan_card_path'] = $request->file('pan_card')->store('documents');
         }
         if ($request->hasFile('resume')) {
             $data['resume_path'] = $request->file('resume')->store('resumes');
@@ -97,7 +102,7 @@ class CandidateProfileController extends Controller
             'course_name.*' => 'required|string',
             'institute_name.*' => 'required|string',
             'university_board.*' => 'required|string',
-            'marks_percentage.*' => 'required|string',
+            'marks_percentage.*' => 'required|numeric|min:0|max:100',
             'passing_year.*' => 'required|integer|digits:4|min:1901|max:'.(date('Y') + 10),
         ]);
 
@@ -261,7 +266,12 @@ class CandidateProfileController extends Controller
 
         // Resume (Weight: 20%)
         if ($user->candidateProfile && $user->candidateProfile->resume_path) {
-            $percentage += 20;
+            $percentage += 15;
+        }
+
+        // PAN Card (Weight: 5%)
+        if ($user->candidateProfile && $user->candidateProfile->pan_card_path) {
+            $percentage += 5;
         }
 
         // Cap at 100

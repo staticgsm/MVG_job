@@ -61,6 +61,9 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
 
     // Candidate Management
     Route::resource('candidates', App\Http\Controllers\Admin\CandidateController::class);
+    Route::post('candidates/{candidate}/subscribe', [App\Http\Controllers\Admin\UserSubscriptionController::class, 'store'])
+        ->name('candidates.subscribe')
+        ->middleware('role:super_admin');
 
     // Subscription Plan Management
     Route::resource('subscription-plans', App\Http\Controllers\Admin\SubscriptionPlanController::class);
@@ -119,6 +122,7 @@ Route::get('/profile', function () {
 Route::middleware(['auth', 'role:hr,super_admin'])->prefix('hr')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'hr'])->name('hr.dashboard');
     Route::get('/applications', [App\Http\Controllers\Admin\JobApplicationController::class, 'indexAll'])->name('hr.applications.index');
+    Route::get('/applications/export', [App\Http\Controllers\Admin\JobApplicationController::class, 'export'])->name('hr.applications.export');
     Route::put('/applications/{application}', [App\Http\Controllers\Admin\JobApplicationController::class, 'update'])->name('hr.applications.update');
     Route::get('/applications/{application}/resume/download', [App\Http\Controllers\Admin\JobApplicationController::class, 'downloadResume'])->name('hr.applications.resume.download');
     Route::get('/applications/{application}/resume/view', [App\Http\Controllers\Admin\JobApplicationController::class, 'viewResume'])->name('hr.applications.resume.view');

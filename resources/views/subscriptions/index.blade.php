@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Choose Your Plan - MVGC Services Private Limited')
+@section('title', 'Choose Your Plan - MVG Company')
 
 @section('extra_css')
 <style>

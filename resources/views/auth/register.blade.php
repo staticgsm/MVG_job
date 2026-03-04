@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Register - MVGC Services Private Limited')
+@section('title', 'Register - MVG Company')
 
 @section('extra_css')
 <style>
@@ -55,7 +55,7 @@
                 <div class="auth-card bg-white">
                     <div class="auth-header">
                         <a href="{{ route('frontend.home') }}">
-                            <img src="{{ asset('images/MVG_logo .png') }}" alt="MVGC Logo" class="auth-logo">
+                            <img src="{{ asset('images/MVG_logo .png') }}" alt="MVG Logo" class="auth-logo">
                         </a>
                         <h4 class="alt-font text-dark-gray fw-600 mb-0">Create Account</h4>
                         <p class="fs-15 text-medium-gray mt-2">Join us to explore better opportunities</p>

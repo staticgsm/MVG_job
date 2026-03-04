@@ -63,7 +63,11 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="aadhaar_no" class="form-label">Aadhaar Number</label>
-            <input type="text" class="form-control" name="aadhaar_no" value="{{ old('aadhaar_no', $profile->aadhaar_no ?? '') }}" required>
+            <input type="text" class="form-control" name="aadhaar_no" value="{{ old('aadhaar_no', $profile->aadhaar_no ?? '') }}" maxlength="14" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="pan_no" class="form-label">PAN Number</label>
+            <input type="text" class="form-control" name="pan_no" value="{{ old('pan_no', $profile->pan_no ?? '') }}" maxlength="10">
         </div>
         <div class="col-md-4 mb-3">
             <label for="worker_type" class="form-label">Worker Category</label>

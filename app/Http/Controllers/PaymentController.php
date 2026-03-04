@@ -129,7 +129,7 @@ class PaymentController extends Controller
                 ['has_active_subscription' => true]
             );
 
-            return redirect()->route('candidate.profile.index')->with('success', 'Payment Successful! Subscription Activated.');
+            return redirect()->route('candidate.profile.index')->with('success', 'Payment Successful! Subscription Activated. Please complete your profile to start applying for jobs.');
         }
 
         return redirect()->route('candidate.subscriptions.index')->with('error', 'Payment Failed. Please try again.');

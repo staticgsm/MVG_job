@@ -206,7 +206,7 @@
         <nav class="sidebar">
             <div class="sidebar-header">
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('images/MVG_logo .png') }}" alt="MVGC Logo" class="sidebar-logo">
+                    <img src="{{ asset('images/MVG_logo .png') }}" alt="MVG Logo" class="sidebar-logo">
                 </a>
             </div>
             

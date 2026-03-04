@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Marks (%)</label>
-                        <input type="text" class="form-control" name="marks_percentage[]" value="{{ $education->marks_percentage }}" required>
+                        <input type="number" step="0.01" min="0" max="100" class="form-control" name="marks_percentage[]" value="{{ $education->marks_percentage }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Passing Year</label>
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="col-md-4 mb-3">
                     <label class="form-label">Marks (%)</label>
-                    <input type="text" class="form-control" name="marks_percentage[]" required>
+                    <input type="number" step="0.01" min="0" max="100" class="form-control" name="marks_percentage[]" required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label class="form-label">Passing Year</label>

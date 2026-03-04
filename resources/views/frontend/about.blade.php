@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'About Us - MVGC')
+@section('title', 'About Us - MVG Company')
 
 @section('content')
 <!-- start page title -->
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row align-items-center justify-content-center extra-small-screen">
             <div class="col-12 position-relative text-center page-title-extra-large">
-                <h1 class="m-auto text-white text-shadow-double-large fw-500 ls-minus-3px xs-ls-minus-2px" data-anime='{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>About - MVGC</h1>
+                <h1 class="m-auto text-white text-shadow-double-large fw-500 ls-minus-3px xs-ls-minus-2px" data-anime='{ "translateY": [15, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>About - MVG Company</h1>
             </div> 
             <div class="down-section text-center" data-anime='{ "translateY": [-15, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                 <a href="#down-section" aria-label="scroll down" class="section-link">
@@ -54,7 +54,7 @@
             <div class="col-xl-5 col-lg-6 offset-lg-1 col-md-9 ps-6 text-center text-lg-start lg-ps-15px" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                 <span class="bg-solitude-blue text-uppercase fs-13 ps-25px pe-25px alt-font fw-600 text-base-color lh-40 sm-lh-55 border-radius-100px d-inline-block mb-25px">About company</span>
                 <h3 class="fw-600 text-dark-gray ls-minus-2px alt-font sm-w-80 xs-w-100 mx-auto sm-mb-20px">Providing Reliable & Advanced Facility Management Solutions</h3>
-                <p>MVGC Services Private Limited is a leading Facility Management and Manpower Service Provider established in 2018.</p> 
+                <p>MVG Company is a leading Facility Management and Manpower Service Provider established in 2008.</p> 
                 <p>With a strong team of trained professionals and supervisors, we maintain the highest standards of safety, hygiene, and service excellence.</p>
                 <a href="{{ route('frontend.services') }}" class="btn btn-large btn-dark-gray btn-box-shadow btn-rounded mt-15px sm-mt-10px">Our services<i class="fa-solid fa-arrow-right"></i></a>
             </div> 

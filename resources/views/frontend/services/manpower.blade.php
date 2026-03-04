@@ -107,5 +107,19 @@
         </div>
     </div>
 </section>
+
+<!-- start section -->
+<section class="half-section">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-start">
+            <div class="col sm-mb-20px">
+                <h4 class="alt-font text-dark-gray fw-600 ls-minus-2px m-0">Skilled, Unskilled &amp; Semi-Skilled Manpower?</h4>
+            </div>
+            <div class="col-12 col-md-auto">
+                <a href="{{ route('frontend.contact') }}" class="btn btn-large btn-dark-gray btn-box-shadow btn-rounded left-icon"><i class="feather icon-feather-mail"></i>Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
 <!-- end section -->
 @endsection

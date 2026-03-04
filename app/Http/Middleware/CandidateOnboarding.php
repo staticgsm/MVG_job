@@ -18,15 +18,18 @@ class CandidateOnboarding
         $user = auth()->user();
 
         if ($user && $user->hasRole('candidate')) {
-            $profile = $user->candidateProfile;
-            $completion = $profile->profile_completion_percentage ?? 0;
+            // 1. Subscription Check - FIRST PRIORITY
+            $hasActiveSubscription = $user->subscription()->exists() &&
+                                     $user->subscription->end_date->isFuture();
 
-            // 1. Profile Completion Check - Only for Dashboard/Applications
+            // Exclude subscription routes from redirection to avoid infinite loop
+            if (!$hasActiveSubscription && !$request->routeIs('candidate.subscriptions.*')) {
+                return redirect()->route('candidate.subscriptions.index')->with('info', 'Please subscribe to a plan to unlock all features.');
+            }
+
+            // 2. Profile Completion Check - Only for Dashboard/Applications
             // We now allow Dashboard access to show the "Missing Items" checklist
             // Completion is strictly enforced at the Subscription/Apply stage
-
-            // 2. Subscription Check - We now allow Dashboard access without a subscription.
-            // Subscription is strictly enforced at the Job Application (apply) stage.
             return $next($request);
         }
 

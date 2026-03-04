@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
 use App\Models\SubscriptionPlan;
+use App\Models\Payment;
 use App\Services\PayUService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
@@ -15,59 +16,56 @@ class SubscriptionController extends Controller
     public function __construct(PayUService $payuService)
     {
         $this->payuService = $payuService;
-        $this->middleware('auth');
     }
 
     public function index()
     {
         $plans = SubscriptionPlan::where('is_active', true)->get();
-        $currentSubscription = auth()->user()->subscription; // Get active subscription
+        $user = Auth::user();
+        $currentSubscription = $user->subscription;
 
         return view('subscriptions.index', compact('plans', 'currentSubscription'));
     }
 
-    public function initiate(Request $request, SubscriptionPlan $plan)
+    public function initiate(SubscriptionPlan $plan)
     {
-        $user = auth()->user();
-        $txnid = 'txn_'.Str::random(10).'_'.time();
+        $user = Auth::user();
 
-        // Create Initiate Payment Record
+        // Generate Transaction ID
+        $txnid = 'MVG_' . Str::random(10) . '_' . time();
+
+        // Create Pending Payment record
         $payment = Payment::create([
             'user_id' => $user->id,
             'subscription_plan_id' => $plan->id,
             'txnid' => $txnid,
             'amount' => $plan->price,
             'currency' => 'INR',
-            'status' => 'initiated',
+            'status' => 'pending',
             'gateway' => 'payu',
         ]);
 
+        // Prepare PayU parameters
         $params = [
             'key' => $this->payuService->getMerchantKey(),
             'txnid' => $txnid,
-            'amount' => number_format($payment->amount, 2, '.', ''), // Ensure 2 decimal places
+            'amount' => number_format($plan->price, 2, '.', ''),
             'productinfo' => $plan->name,
             'firstname' => $user->name,
             'email' => $user->email,
-            'phone' => $user->mobile ?? '9999999999',
+            'phone' => $user->mobile ?? '9999999999', // Fallback if mobile not set
             'surl' => route('payment.response'),
             'furl' => route('payment.response'),
-            'udf1' => '',
-            'udf2' => '',
+            'udf1' => $user->id,
+            'udf2' => $plan->id,
             'udf3' => '',
             'udf4' => '',
             'udf5' => '',
         ];
 
         // Generate Hash
-        // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
-        $hashString = $params['key'].'|'.$params['txnid'].'|'.$params['amount'].'|'.$params['productinfo'].'|'.$params['firstname'].'|'.$params['email'].'|'.$params['udf1'].'|'.$params['udf2'].'|'.$params['udf3'].'|'.$params['udf4'].'|'.$params['udf5'].'||||||'.config('services.payu.salt');
-
-        \Illuminate\Support\Facades\Log::info('PayU Params:', $params); // Debug Log
-
-        $hash = strtolower(hash('sha512', $hashString));
-        $params['hash'] = $hash;
-        $params['action'] = config('services.payu.base_url');
+        $params['hash'] = $this->payuService->generateHash($params);
+        $params['action'] = $this->payuService->getPaymentUrl();
 
         return view('subscriptions.checkout', compact('params'));
     }

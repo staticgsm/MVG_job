@@ -1,11 +1,11 @@
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
-    <title>@yield('title', 'MVGC Services Private Limited')</title>
+    <title>@yield('title', 'MVG Company')</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="@yield('meta_description', 'MVGC Services Private Limited - Leading Facility Management and Manpower Service Provider.')">
+    <meta name="description" content="@yield('meta_description', 'MVG Company - Leading Facility Management and Manpower Service Provider.')">
     <!-- favicon icon -->
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon-57x57.png') }}">
@@ -29,9 +29,9 @@
             <div class="container-fluid">
                 <div class="col-auto col-xxl-3 col-lg-2 me-lg-0 me-auto">
                     <a class="navbar-brand" href="{{ route('frontend.home') }}">
-                        <img src="{{ asset('images/MVG_logo_wh.png') }}" data-at2x="{{ asset('images/MVG_logo_wh.png') }}" alt="MVGC Logo" class="default-logo">
-                        <img src="{{ asset('images/MVG_logo .png') }}" data-at2x="{{ asset('images/MVG_logo .png') }}" alt="MVGC Logo" class="alt-logo">
-                        <img src="{{ asset('images/MVG_logo .png') }}" data-at2x="{{ asset('images/MVG_logo .png') }}" alt="MVGC Logo" class="mobile-logo">
+                        <img src="{{ asset('images/MVG_logo_wh.png') }}" data-at2x="{{ asset('images/MVG_logo_wh.png') }}" alt="MVG Logo" class="default-logo">
+                        <img src="{{ asset('images/MVG_logo .png') }}" data-at2x="{{ asset('images/MVG_logo .png') }}" alt="MVG Logo" class="alt-logo">
+                        <img src="{{ asset('images/MVG_logo .png') }}" data-at2x="{{ asset('images/MVG_logo .png') }}" alt="MVG Logo" class="mobile-logo">
                     </a>
                 </div>
                 <div class="col-auto menu-order position-static">
@@ -70,16 +70,29 @@
                 <div class="col-auto col-xxl-3 col-lg-2 text-end d-none d-sm-flex">
                     <div class="header-icon">
                         <div class="d-none d-xxl-inline-block me-25px xxl-me-10px">
-                            <div class="alt-font fs-15 xl-fs-13 widget-text fw-500">
-                                <span class="w-35px h-35px bg-base-color d-inline-block lh-36 me-10px border-radius-100px"><i class="feather icon-feather-phone me-10px"></i></span>
-                                <a href="tel:+917720007466" class="widget-text text-white-hover">+91 7720007466</a>
+                            <div class="alt-font fs-15 xl-fs-13 widget-text fw-500 d-flex align-items-center">
+                                <span class="w-35px h-35px bg-base-color d-inline-block lh-36 me-10px border-radius-100px text-center"><i class="feather icon-feather-phone text-white"></i></span>
+                                <a href="tel:+917887889636" class="widget-text text-white-hover">+91 7887889636</a>
                             </div>
                         </div>
                         <div class="header-button">
                             @guest
                                 <a href="{{ route('login') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded">Login</a>
                             @else
-                                <a href="{{ route('home') }}" class="btn btn-very-small btn-transparent-white-light btn-rounded fw-600">{{ auth()->user()->name }}</a>
+                                <div class="dropdown d-inline-block">
+                                    <a href="javascript:void(0);" class="btn btn-very-small btn-transparent-white-light btn-rounded fw-600 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ auth()->user()->name }}
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 mt-2 py-2">
+                                        <li><a class="dropdown-item py-2 px-3 fw-600" href="{{ route('home') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                                        <li><hr class="dropdown-divider opacity-50"></li>
+                                        <li>
+                                            <a class="dropdown-item py-2 px-4 fw-600 text-danger" href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             @endguest
                         </div>
                     </div>
@@ -99,10 +112,10 @@
                 <!-- start footer column -->
                 <div class="col-lg-3 col-sm-6 last-paragraph-no-margin order-5 order-sm-4 order-lg-1 text-center text-sm-start">
                     <a href="{{ route('frontend.home') }}" class="footer-logo mb-15px d-block d-lg-inline-block">
-                        <img src="{{ asset('images/MVG_logo_wh.png') }}" data-at2x="{{ asset('images/MVG_logo_wh.png') }}" alt="MVGC Logo">
+                        <img src="{{ asset('images/MVG_logo_wh.png') }}" data-at2x="{{ asset('images/MVG_logo_wh.png') }}" alt="MVG Logo">
                     </a>
                     <p class="w-90 sm-w-100 d-inline-block mb-15px">One of the leading Service Providers in Housekeeping and Facility Management Services all over Maharashtra and India.</p>
-                    <p>&COPY; 2026 <a href="{{ route('frontend.home') }}" class="text-white text-decoration-line-bottom">MVGC Services Private Limited. All Rights Reserved.</a></p>
+                    <p>&COPY; 2026 <a href="{{ route('frontend.home') }}" class="text-white text-decoration-line-bottom">MVG Company. All Rights Reserved.</a></p>
                 </div>
                 <!-- end footer column -->
                 <!-- start footer column -->
@@ -141,8 +154,8 @@
                 <div class="col-7 col-lg-3 col-sm-6 xs-mb-30px last-paragraph-no-margin order-4 order-sm-5 order-lg-5">
                     <span class="alt-font d-block text-white mb-5px">Get in touch</span>
                     <p class="w-80 lg-w-100 md-w-70 sm-w-100 mb-10px">MVG Empire, 3rd floor, Sea-Wood Tower, Near Khatib Dairy, Old Gangapur Naka, Gangapur Road, Nashik-422013</p>
-                    <div><i class="feather icon-feather-phone-call icon-very-small text-white me-10px"></i><a href="tel:+917720007466" class="text-white">+91 7720007466</a></div>
-                    <div><i class="feather icon-feather-mail icon-very-small text-white me-10px"></i><a href="mailto:mvgcservicespvtltd@gmail.com" class="text-white text-decoration-line-bottom">mvgcservicespvtltd@gmail.com</a></div>
+                    <div><i class="feather icon-feather-phone-call icon-very-small text-white me-10px"></i><a href="tel:+917887889636" class="text-white">+91 7887889636</a> / <a href="tel:+917720007466" class="text-white">7720007466</a></div>
+                    <div><i class="feather icon-feather-mail icon-very-small text-white me-10px"></i><a href="mailto:info@mvgcompany.in" class="text-white text-decoration-line-bottom">info@mvgcompany.in</a></div>
                 </div>
                 <!-- end footer column -->
             </div>

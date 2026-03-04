@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Our Services - MVGC')
+@section('title', 'Our Services - MVG Company')
 
 @section('content')
 <!-- start page title -->

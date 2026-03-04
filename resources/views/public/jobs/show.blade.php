@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', $job->title . ' - MVGC Services')
+@section('title', $job->title . ' - MVG Company')
 
 @section('extra_css')
 <link rel="stylesheet" href="{{ asset('css/jobs.css') }}">

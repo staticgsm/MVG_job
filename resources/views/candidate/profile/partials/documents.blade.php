@@ -20,6 +20,19 @@
         </div>
 
         <div class="col-md-6 mb-4">
+            <h6 class="fw-bold">PAN Card</h6>
+            <input type="file" class="form-control mb-2" name="pan_card" accept=".pdf">
+            @if($profile->pan_card_path)
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-file-earmark-pdf text-danger me-2"></i>
+                    <a href="{{ Storage::url($profile->pan_card_path) }}" target="_blank" class="text-decoration-none">View Uploaded PAN Card</a>
+                </div>
+            @else
+                <small class="text-muted">Not uploaded yet</small>
+            @endif
+        </div>
+
+        <div class="col-md-6 mb-4">
             <h6 class="fw-bold">Resume / CV</h6>
             <input type="file" class="form-control mb-2" name="resume" accept=".pdf">
             @if($profile->resume_path)

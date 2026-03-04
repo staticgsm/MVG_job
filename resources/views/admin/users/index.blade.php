@@ -21,6 +21,7 @@
                             <th>User Details</th>
                             <th>Role</th>
                             <th>Email Address</th>
+                            <th>Last Login & IP</th>
                             <th>Created at</th>
                             <th class="text-end">Actions</th>
                         </tr>
@@ -44,6 +45,14 @@
                                 @endif
                             </td>
                             <td>{{ $user->email }}</td>
+                            <td>
+                                @if($user->last_login_at)
+                                    <div class="fw-700 text-dark small mb-0">{{ $user->last_login_at->format('d M, Y H:i') }}</div>
+                                    <div class="text-muted small"><i class="bi bi-geo-fill me-1"></i>{{ $user->last_login_ip }}</div>
+                                @else
+                                    <span class="text-muted small">Never logged in</span>
+                                @endif
+                            </td>
                             <td>{{ $user->created_at ? $user->created_at->format('d M, Y') : 'N/A' }}</td>
                             <td class="text-end">
                                 <div class="btn-group shadow-sm border-0 rounded">

@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Login;
+use App\Listeners\LoginListener;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
+
+        Event::listen(
+            Login::class,
+            LoginListener::class
+        );
+
         // Define Gates for Permissions
         \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
             if ($user->hasRole('super_admin')) {

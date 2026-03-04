@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'My Applications — MVGC Services')
+@section('title', 'My Applications - MVG Company')
 
 @section('extra_css')
 <link rel="stylesheet" href="{{ asset('css/candidate-dashboard.css') }}">
@@ -181,7 +181,7 @@
                                                             {{ $application->jobPost->title }}
                                                         </a>
                                                         <div style="font-size:12px;color:#718096;margin-top:2px;">
-                                                            {{ $application->jobPost->company_name ?? 'MVGC Services' }}
+                                                            {{ $application->jobPost->company_name ?? 'MVG Company' }}
                                                         </div>
                                                     </div>
                                                 </div>

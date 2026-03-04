@@ -3,6 +3,11 @@
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">All Applications</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ route('hr.applications.export') }}" class="btn btn-sm btn-outline-secondary">
+            <i class="fas fa-file-export me-1"></i> Export to CSV
+        </a>
+    </div>
 </div>
 
 @if(session('success'))

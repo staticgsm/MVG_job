@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Contact Us - MVGC')
+@section('title', 'Contact Us - MVG Company')
 
 @section('content')
 <!-- start page title -->
@@ -32,11 +32,11 @@
             <div class="col-lg-4 col-md-6" data-anime='{ "translateX": [15, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
                 <div class="bg-base-color p-18 lg-p-15 h-100"> 
                     <span class="text-white text-decoration-line-bottom mb-10px d-inline-block">Keep in touch?</span>
-                    <p class="text-white opacity-5">MVG Empire", 3rd floor, Sea-Wood Tower, Near Khatib Dairy, Old Gangapur Naka, Gangapur Road Nashik-422013</p>
+                    <p class="text-white opacity-5">MVG Empire, 3rd floor, Sea-Wood Tower, Near Khatib Dairy, Old Gangapur Naka, Gangapur Road, Nashik-422013</p>
                     <span class="text-white text-decoration-line-bottom mb-10px d-inline-block">Toll free customer care?</span>
-                    <p><a href="tel:+917720007466" class="text-white opacity-5">+91 7720007466</a><br></p>
+                    <p><a href="tel:+917887889636" class="text-white opacity-5">+91 7887889636</a> / <a href="tel:+917720007466" class="text-white opacity-5">7720007466</a><br></p>
                     <span class="text-white text-decoration-line-bottom mb-10px d-inline-block">Need live support?</span>
-                    <a href="mailto:mvgcservicespvtltd@gmail.com" class="text-white opacity-5 d-block">mvgcservicespvtltd@gmail.com</a>
+                    <a href="mailto:info@mvgcompany.in" class="text-white opacity-5 d-block">info@mvgcompany.in</a>
                 </div>
             </div>
             <div class="col-lg-4 offset-lg-1">  

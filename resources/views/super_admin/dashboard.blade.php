@@ -189,13 +189,13 @@
                                 <div class="text-muted small">Config Mail, Notifications & Global Params</div>
                             </div>
                         </a>
-                        <a href="{{ route('permissions.index') }}" class="management-link p-3 rounded-3 border d-flex align-items-center text-decoration-none transition-base shadow-sm-hover">
+                        <!-- <a href="{{ route('permissions.index') }}" class="management-link p-3 rounded-3 border d-flex align-items-center text-decoration-none transition-base shadow-sm-hover">
                             <div class="icon-circle bg-soft-danger text-danger me-3"><i class="fas fa-key"></i></div>
                             <div>
                                 <div class="fw-700 text-dark mb-0">Permission Master</div>
                                 <div class="text-muted small">Define system-level operation keys</div>
                             </div>
-                        </a>
+                        </a> -->
                     </div>
                     
                     <div class="mt-4 pt-3 border-top">

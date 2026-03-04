@@ -4,7 +4,15 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800 fw-700">Job Applications</h1>
-        <div class="text-muted small">Applications for: <span class="text-base-color fw-700">{{ $job->title }}</span></div>
+        <div class="d-flex gap-2 align-items-center">
+            <div class="text-muted small me-3">Applications for: <span class="text-base-color fw-700">{{ $job->title }}</span></div>
+            <a href="{{ route('hr.applications.export', ['job_id' => $job->id]) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <i class="fas fa-file-export me-1"></i> Export CSV
+            </a>
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <i class="fas fa-arrow-left me-1"></i> Dashboard
+            </a>
+        </div>
     </div>
 
     @if(session('success'))

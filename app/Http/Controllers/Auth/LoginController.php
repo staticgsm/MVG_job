@@ -37,4 +37,43 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        if ($user->hasRole('candidate')) {
+            $hasActiveSubscription = $user->subscription()->exists() &&
+                                     $user->subscription->end_date->isFuture();
+
+            if (!$hasActiveSubscription) {
+                return redirect()->route('candidate.subscriptions.index')->with('info', 'Please subscribe to a plan to unlock all features.');
+            }
+
+            return redirect()->route('candidate.dashboard');
+        }
+
+        if ($user->hasRole('super_admin')) {
+            return redirect()->route('super_admin.dashboard');
+        }
+
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($user->hasRole('hr')) {
+            return redirect()->route('hr.dashboard');
+        }
+
+        if ($user->hasRole('accountant')) {
+            return redirect()->route('accountant.dashboard');
+        }
+
+        return redirect($this->redirectTo);
+    }
 }

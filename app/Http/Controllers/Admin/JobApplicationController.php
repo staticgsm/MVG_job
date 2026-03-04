@@ -59,4 +59,47 @@ class JobApplicationController extends Controller
 
         return \Illuminate\Support\Facades\Storage::response($application->user->candidateProfile->resume_path);
     }
+
+    public function export(Request $request)
+    {
+        $query = JobApplication::with(['jobPost', 'user.candidateProfile']);
+
+        if ($request->filled('job_id')) {
+            $query->where('job_id', $request->job_id);
+        }
+
+        $applications = $query->latest()->get();
+
+        $filename = "applications_export_" . date('Y-m-d_H-i-s') . ".csv";
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() use ($applications) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Sr No', 'Job Code', 'Job Title', 'Candidate Name', 'Email', 'Mobile', 'Applied On', 'Status', 'Remarks']);
+
+            foreach ($applications as $key => $app) {
+                fputcsv($file, [
+                    $key + 1,
+                    $app->jobPost->job_code ?? 'N/A',
+                    $app->jobPost->title ?? 'N/A',
+                    $app->user->name,
+                    $app->user->email,
+                    $app->user->mobile,
+                    $app->created_at->format('d M Y'),
+                    $app->status,
+                    $app->remarks
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
