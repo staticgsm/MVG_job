@@ -237,7 +237,7 @@
                         </li>
                     @endif
 
-                    @if(auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin'))
+                    @if(auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin') || auth()->user()->hasRole('hr'))
                         <li class="nav-item">
                             <h6 class="sidebar-heading">Administration</h6>
                             @if(auth()->user()->hasRole('admin'))
@@ -245,18 +245,22 @@
                                     <i class="bi bi-window-sidebar"></i> Main Dashboard
                                 </a>
                             @endif
-                            <a class="nav-link {{ request()->routeIs('admin.candidates.*') ? 'active' : '' }}" href="{{ route('admin.candidates.index') }}">
-                                <i class="bi bi-person-badge-fill"></i> Candidates
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}" href="{{ route('admin.subscription-plans.index') }}">
-                                <i class="bi bi-credit-card-2-front-fill"></i> Plans & Pricing
-                            </a>
+                            @if(auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin'))
+                                <a class="nav-link {{ request()->routeIs('admin.candidates.*') ? 'active' : '' }}" href="{{ route('admin.candidates.index') }}">
+                                    <i class="bi bi-person-badge-fill"></i> Candidates
+                                </a>
+                                <a class="nav-link {{ request()->routeIs('admin.subscription-plans.*') ? 'active' : '' }}" href="{{ route('admin.subscription-plans.index') }}">
+                                    <i class="bi bi-credit-card-2-front-fill"></i> Plans & Pricing
+                                </a>
+                            @endif
                             <a class="nav-link {{ request()->routeIs('admin.jobs.*') ? 'active' : '' }}" href="{{ route('admin.jobs.index') }}">
                                 <i class="bi bi-briefcase-fill"></i> Job Posts
                             </a>
-                            <a class="nav-link {{ request()->routeIs('admin.master_data.*') ? 'active' : '' }}" href="{{ route('admin.master_data.index') }}">
-                                <i class="bi bi-database-fill-gear"></i> Master Data
-                            </a>
+                            @if(auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin'))
+                                <a class="nav-link {{ request()->routeIs('admin.master_data.*') ? 'active' : '' }}" href="{{ route('admin.master_data.index') }}">
+                                    <i class="bi bi-database-fill-gear"></i> Master Data
+                                </a>
+                            @endif
                         </li>
                     @endif
 

@@ -56,7 +56,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->group(fu
 });
 
 // Admin Dashboard
-Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin,super_admin,hr'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'admin'])->name('dashboard');
 
     // Candidate Management
@@ -70,6 +70,7 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
 
     // Job Management
     Route::resource('jobs', App\Http\Controllers\JobPostController::class);
+    Route::get('jobs/{job}/notifications', [App\Http\Controllers\JobPostController::class, 'notifications'])->name('jobs.notifications');
     Route::get('jobs/{job}/applications', [App\Http\Controllers\Admin\JobApplicationController::class, 'index'])->name('jobs.applications.index');
     Route::put('applications/{application}', [App\Http\Controllers\Admin\JobApplicationController::class, 'update'])->name('jobs.applications.update');
 

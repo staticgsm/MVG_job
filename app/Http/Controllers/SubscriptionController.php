@@ -32,7 +32,7 @@ class SubscriptionController extends Controller
         $user = Auth::user();
 
         // Generate Transaction ID
-        $txnid = 'MVG_' . Str::random(10) . '_' . time();
+        $txnid = 'txn_' . Str::random(10) . '_' . time();
 
         // Create Pending Payment record
         $payment = Payment::create([
@@ -44,6 +44,34 @@ class SubscriptionController extends Controller
             'status' => 'pending',
             'gateway' => 'payu',
         ]);
+
+        // Handle Free Plan (Amount 0.00)
+        if ($plan->price <= 0) {
+            $payment->update(['status' => 'success']);
+
+            $userSubscription = \App\Models\UserSubscription::create([
+                'user_id' => $user->id,
+                'subscription_plan_id' => $plan->id,
+                'start_date' => \Carbon\Carbon::now(),
+                'end_date' => \Carbon\Carbon::now()->addDays($plan->duration_days),
+                'status' => 'active',
+            ]);
+
+            // Notify User
+            try {
+                $user->notify(new \App\Notifications\SubscriptionActivated($userSubscription));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Notification failed: ' . $e->getMessage());
+            }
+
+            // Update User Profile flag
+            $user->candidateProfile()->updateOrCreate(
+                ['user_id' => $user->id],
+                ['has_active_subscription' => true]
+            );
+
+            return redirect()->route('candidate.profile.index')->with('success', 'Plan Activated Successfully! Please complete your profile to start applying for jobs.');
+        }
 
         // Prepare PayU parameters
         $params = [

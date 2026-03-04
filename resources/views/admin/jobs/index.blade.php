@@ -23,6 +23,7 @@
                             <th>Job ID</th>
                             <th>Job Details</th>
                             <th>Department</th>
+                            <th>Positions</th>
                             <th>Location</th>
                             <th>Status</th>
                             <th>Posted Date</th>
@@ -38,6 +39,7 @@
                                 <div class="text-muted small">{{ $job->project_name ?? 'No Project' }}</div>
                             </td>
                             <td>{{ $job->department }}</td>
+                            <td><span class="badge bg-info text-dark">{{ $job->positions }}</span></td>
                             <td><i class="bi bi-geo-alt me-1 text-muted"></i> {{ $job->location }}</td>
                             <td>
                                 @if($job->status == 'Open')
@@ -53,9 +55,21 @@
                                         <a href="{{ route('admin.jobs.edit', $job) }}" class="btn btn-white btn-sm" title="Edit Job">
                                             <i class="bi bi-pencil-square text-primary"></i>
                                         </a>
+                                    @endif
+
+                                    @if(auth()->user()->hasPermission('job.view'))
+                                        <a href="{{ route('admin.jobs.notifications', $job) }}" class="btn btn-white btn-sm" title="Notification Logs">
+                                            <i class="bi bi-bell-fill text-warning"></i>
+                                        </a>
+                                    @endif
+
+                                    @if(auth()->user()->hasPermission('application.view'))
                                         <a href="{{ route('admin.jobs.applications.index', $job) }}" class="btn btn-white btn-sm" title="View Applications">
                                             <i class="bi bi-people-fill text-info"></i>
                                         </a>
+                                    @endif
+
+                                    @if(auth()->user()->hasPermission('job.edit'))
                                         <form action="{{ route('admin.jobs.destroy', $job) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this job post?')">
                                             @csrf
                                             @method('DELETE')

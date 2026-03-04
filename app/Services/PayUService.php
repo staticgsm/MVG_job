@@ -19,8 +19,9 @@ class PayUService
 
     public function generateHash($params)
     {
-        // Hash Sequence: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
-        $hashSequence = 'key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt';
+        // Hash Sequence: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|salt
+        // Note: PayU requires 16 fields before the salt. If UDF6-10 are not used, they should be empty strings.
+        $hashSequence = 'key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10';
 
         $hashVarsSeq = explode('|', $hashSequence);
         $hash_string = '';

@@ -93,6 +93,11 @@
                         @error('deadline_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6 mb-3">
+                        <label for="positions" class="form-label">Number of Positions</label>
+                        <input type="number" class="form-control @error('positions') is-invalid @enderror" id="positions" name="positions" value="{{ old('positions', $job->positions) }}" min="1" required>
+                        @error('positions') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
                             <option value="Open" {{ old('status', $job->status) == 'Open' ? 'selected' : '' }}>Open</option>

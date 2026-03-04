@@ -94,7 +94,7 @@
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="fs-14 text-medium-gray">Positions</span>
-                            <span class="fs-14 fw-700 text-dark-gray">{{ $job->vacancies ?? '1' }}</span>
+                            <span class="fs-14 fw-700 text-dark-gray">{{ $job->positions }}</span>
                         </div>
                         @if($job->website)
                             <div class="d-flex justify-content-between mb-2">

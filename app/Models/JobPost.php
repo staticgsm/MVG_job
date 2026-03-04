@@ -26,6 +26,7 @@ class JobPost extends Model
         'education_required',
         'department',
         'eligibility',
+        'positions',
     ];
 
     protected static function boot()
