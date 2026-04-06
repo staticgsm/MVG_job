@@ -42,8 +42,18 @@
             <div class="col-lg-4 offset-lg-1">  
                 <div class="pt-5 md-pt-45px contact-form-style-01" data-anime='{ "translateX": [0, 0], "opacity": [0,1], "duration": 600, "delay": 300, "staggervalue": 300, "easing": "easeOutQuad" }'>
                     <h4 class="d-inline-block alt-font fw-600 text-dark-gray ls-minus-1px mb-30px">Feel free to reach via contact us form.</h4>
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <!-- start contact form -->
-                    <form action="#" method="post">
+                    <form action="{{ route('frontend.contact.submit') }}" method="post">
                         @csrf
                         <div class="position-relative form-group mb-20px">
                             <span class="form-icon"><i class="bi bi-emoji-smile"></i></span>

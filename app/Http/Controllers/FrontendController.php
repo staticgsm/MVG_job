@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactUserMail;
+use App\Mail\ContactAdminMail;
 
 class FrontendController extends Controller
 {
@@ -19,6 +22,40 @@ class FrontendController extends Controller
     public function contact()
     {
         return view('frontend.contact');
+    }
+
+    public function submitContact(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'comment' => 'required|string',
+        ]);
+
+        try {
+            // Send email to Admin
+            Mail::to('info@mvgcompany.in')->send(new ContactAdminMail($validatedData));
+
+            // Send email to User
+            Mail::to($validatedData['email'])->send(new ContactUserMail($validatedData));
+
+            if ($request->ajax()) {
+                return json_encode([
+                    'alert' => 'alert-success',
+                    'message' => 'Thank you for contacting us. We will get back to you soon!'
+                ]);
+            }
+
+            return back()->with('success', 'Thank you for contacting us. We will get back to you soon!');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return json_encode([
+                    'alert' => 'alert-danger',
+                    'message' => 'Something went wrong. Please try again later.'
+                ]);
+            }
+            return back()->with('error', 'Something went wrong. Please try again later. Error: ' . $e->getMessage());
+        }
     }
 
     public function services()

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\FrontendController::class, 'home'])->name('frontend.home');
 Route::get('/about', [App\Http\Controllers\FrontendController::class, 'about'])->name('frontend.about');
 Route::get('/contact', [App\Http\Controllers\FrontendController::class, 'contact'])->name('frontend.contact');
+Route::post('/contact', [App\Http\Controllers\FrontendController::class, 'submitContact'])->name('frontend.contact.submit');
 Route::get('/services', [App\Http\Controllers\FrontendController::class, 'services'])->name('frontend.services');
 
 Route::prefix('services')->name('frontend.services.')->group(function () {
