@@ -117,4 +117,19 @@ class FrontendController extends Controller
     {
         return view('frontend.services.civilwork');
     }
+
+    public function terms()
+    {
+        return view('frontend.terms');
+    }
+
+    public function privacy()
+    {
+        return view('frontend.privacy');
+    }
+
+    public function refund()
+    {
+        return view('frontend.refund');
+    }
 }

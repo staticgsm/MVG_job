@@ -115,7 +115,6 @@
                         <img src="{{ asset('images/MVG_logo_wh.png') }}" data-at2x="{{ asset('images/MVG_logo_wh.png') }}" alt="MVG Logo">
                     </a>
                     <p class="w-90 sm-w-100 d-inline-block mb-15px">One of the leading Service Providers in Housekeeping and Facility Management Services all over Maharashtra and India.</p>
-                    <p>&COPY; 2026 <a href="{{ route('frontend.home') }}" class="text-white text-decoration-line-bottom">MVG Company. All Rights Reserved.</a></p>
                 </div>
                 <!-- end footer column -->
                 <!-- start footer column -->
@@ -158,6 +157,18 @@
                     <div><i class="feather icon-feather-mail icon-very-small text-white me-10px"></i><a href="mailto:info@mvgcompany.in" class="text-white text-decoration-line-bottom">info@mvgcompany.in</a></div>
                 </div>
                 <!-- end footer column -->
+            </div>
+            <div class="row pt-30px border-top border-1 border-color-transparent-white-light mt-30px align-items-center">
+                <div class="col-lg-6 text-center text-lg-start md-mb-10px">
+                    <p>&COPY; {{ date('Y') }} <a href="{{ route('frontend.home') }}" class="text-white text-decoration-line-bottom">MVG Company. All Rights Reserved.</a></p>
+                </div>
+                <div class="col-lg-6 text-center text-lg-end">
+                    <ul class="footer-navbar">
+                        <li class="d-inline-block ps-20px pe-20px sm-ps-10px sm-pe-10px"><a href="{{ route('frontend.terms') }}">Terms & Conditions</a></li>
+                        <li class="d-inline-block ps-20px pe-20px sm-ps-10px sm-pe-10px"><a href="{{ route('frontend.privacy') }}">Privacy Policy</a></li>
+                        <li class="d-inline-block ps-20px sm-ps-10px"><a href="{{ route('frontend.refund') }}">Refund Policy</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </footer>

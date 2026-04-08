@@ -8,6 +8,9 @@ Route::get('/about', [App\Http\Controllers\FrontendController::class, 'about'])-
 Route::get('/contact', [App\Http\Controllers\FrontendController::class, 'contact'])->name('frontend.contact');
 Route::post('/contact', [App\Http\Controllers\FrontendController::class, 'submitContact'])->name('frontend.contact.submit');
 Route::get('/services', [App\Http\Controllers\FrontendController::class, 'services'])->name('frontend.services');
+Route::get('/terms-and-conditions', [App\Http\Controllers\FrontendController::class, 'terms'])->name('frontend.terms');
+Route::get('/privacy-policy', [App\Http\Controllers\FrontendController::class, 'privacy'])->name('frontend.privacy');
+Route::get('/refund-policy', [App\Http\Controllers\FrontendController::class, 'refund'])->name('frontend.refund');
 
 Route::prefix('services')->name('frontend.services.')->group(function () {
     Route::get('/manpower', [App\Http\Controllers\FrontendController::class, 'manpower'])->name('manpower');
