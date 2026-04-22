@@ -42,7 +42,7 @@ class SubscriptionController extends Controller
             'amount' => $plan->price,
             'currency' => 'INR',
             'status' => 'pending',
-            'gateway' => 'payu',
+            'gateway' => 'manual', // Updated to manual
         ]);
 
         // Handle Free Plan (Amount 0.00)
@@ -73,6 +73,11 @@ class SubscriptionController extends Controller
             return redirect()->route('candidate.profile.index')->with('success', 'Plan Activated Successfully! Please complete your profile to start applying for jobs.');
         }
 
+        /* 
+        // ══════════════════════════════════════════════════════════════════════
+        // PREVIOUS PAYU AUTOMATED FLOW (COMMENTED OUT)
+        // ══════════════════════════════════════════════════════════════════════
+        
         // Prepare PayU parameters
         $params = [
             'key' => $this->payuService->getMerchantKey(),
@@ -96,5 +101,45 @@ class SubscriptionController extends Controller
         $params['action'] = $this->payuService->getPaymentUrl();
 
         return view('subscriptions.checkout', compact('params'));
+        // ══════════════════════════════════════════════════════════════════════
+        */
+
+        // NEW MANUAL FLOW: Redirect to upload screenshot page
+        return redirect()->route('candidate.subscriptions.manual', ['payment' => $payment->id]);
+    }
+
+    public function manualPayment(Payment $payment)
+    {
+        // Security check
+        if ($payment->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return view('subscriptions.manual_payment', compact('payment'));
+    }
+
+    public function submitScreenshot(Request $request, Payment $payment)
+    {
+        // Security check
+        if ($payment->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'screenshot' => 'required|image|max:2048',
+        ]);
+
+        if ($request->hasFile('screenshot')) {
+            $path = $request->file('screenshot')->store('payment_screenshots', 'public');
+            
+            $payment->update([
+                'screenshot_path' => $path,
+                'status' => 'pending' // Still pending until admin approval
+            ]);
+
+            return redirect()->route('candidate.dashboard')->with('success', 'Payment screenshot uploaded successfully. Admin will verify and activate your subscription shortly.');
+        }
+
+        return back()->with('error', 'Please select a valid image file.');
     }
 }

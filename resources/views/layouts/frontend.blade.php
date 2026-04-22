@@ -85,6 +85,11 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 mt-2 py-2">
                                         <li><a class="dropdown-item py-2 px-3 fw-600" href="{{ route('home') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                                        <li>
+                                            <a class="dropdown-item py-2 px-3 fw-600" href="{{ route('candidate.profile.index', ['active_tab' => 'settings']) }}">
+                                                <i class="bi bi-shield-lock me-2"></i>Password Change
+                                            </a>
+                                        </li>
                                         <li><hr class="dropdown-divider opacity-50"></li>
                                         <li>
                                             <a class="dropdown-item py-2 px-4 fw-600 text-danger" href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

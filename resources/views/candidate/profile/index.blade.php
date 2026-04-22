@@ -121,6 +121,9 @@
                         <a href="{{ route('candidate.subscriptions.index') }}">
                             <i class="bi bi-patch-check-fill"></i> Subscription
                         </a>
+                        <a href="{{ route('candidate.profile.index', ['active_tab' => 'settings']) }}">
+                            <i class="bi bi-shield-lock-fill"></i> Security
+                        </a>
                         <div class="nav-divider"></div>
                         <a href="{{ route('logout') }}" class="logout"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -186,6 +189,7 @@
                             <button class="profile-tab-btn" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience" type="button" role="tab"
                                     style="{{ ($profile->worker_type ?? '') == 'Unskilled' ? 'display:none;' : '' }}">Experience</button>
                             <button class="profile-tab-btn" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab">Documents</button>
+                            <button class="profile-tab-btn" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">Settings</button>
                         </div>
 
                         <div class="tab-content" style="padding-bottom:28px;">
@@ -203,6 +207,9 @@
                             </div>
                             <div class="tab-pane fade" id="documents" role="tabpanel">
                                 @include('candidate.profile.partials.documents')
+                            </div>
+                            <div class="tab-pane fade" id="settings" role="tabpanel">
+                                @include('candidate.profile.partials.settings')
                             </div>
                         </div>
                     </div>

@@ -87,6 +87,11 @@ Route::middleware(['auth', 'role:admin,super_admin,hr'])->prefix('admin')->name(
     Route::delete('/master-data/skills/{skill}', [App\Http\Controllers\Admin\MasterDataController::class, 'destroySkill'])->name('master_data.skills.destroy');
     Route::post('/master-data/education', [App\Http\Controllers\Admin\MasterDataController::class, 'storeEducation'])->name('master_data.education.store');
     Route::delete('/master-data/education/{course}', [App\Http\Controllers\Admin\MasterDataController::class, 'destroyEducation'])->name('master_data.education.destroy');
+
+    // Manual Payment Verification
+    Route::get('/verify-payments', [App\Http\Controllers\Admin\ManualPaymentController::class, 'index'])->name('payments.index');
+    Route::post('/verify-payments/{payment}/approve', [App\Http\Controllers\Admin\ManualPaymentController::class, 'approve'])->name('payments.approve');
+    Route::post('/verify-payments/{payment}/reject', [App\Http\Controllers\Admin\ManualPaymentController::class, 'reject'])->name('payments.reject');
 });
 
 // Public Job Routes
@@ -101,6 +106,8 @@ Route::middleware(['auth', 'role:candidate', 'onboarding'])->prefix('candidate')
     // Public to Candidate (Subscriptions)
     Route::get('/subscriptions', [App\Http\Controllers\SubscriptionController::class, 'index'])->name('subscriptions.index');
     Route::post('/subscriptions/{plan}/initiate', [App\Http\Controllers\SubscriptionController::class, 'initiate'])->name('subscriptions.initiate');
+    Route::get('/subscriptions/manual/{payment}', [App\Http\Controllers\SubscriptionController::class, 'manualPayment'])->name('subscriptions.manual');
+    Route::post('/subscriptions/manual/{payment}', [App\Http\Controllers\SubscriptionController::class, 'submitScreenshot'])->name('subscriptions.submitScreenshot');
 
     // Profile (Must be accessible for onboarding)
     Route::get('/profile', [App\Http\Controllers\CandidateProfileController::class, 'show'])->name('profile.index');
@@ -109,6 +116,7 @@ Route::middleware(['auth', 'role:candidate', 'onboarding'])->prefix('candidate')
     Route::post('/profile/experience', [App\Http\Controllers\CandidateProfileController::class, 'updateExperience'])->name('profile.updateExperience');
     Route::post('/profile/skills', [App\Http\Controllers\CandidateProfileController::class, 'updateSkills'])->name('profile.updateSkills');
     Route::post('/profile/documents', [App\Http\Controllers\CandidateProfileController::class, 'updateDocuments'])->name('profile.updateDocuments');
+    Route::post('/profile/password', [App\Http\Controllers\CandidateProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 
     // Applications (Now accessible without active subscription to view history)
     Route::get('/applications', [App\Http\Controllers\JobApplicationController::class, 'candidateIndex'])->name('applications.index');

@@ -19,6 +19,28 @@
         </div>
     @endif
 
+    <style>
+        .nav-tabs.card-header-tabs .nav-link {
+            border: none;
+            color: #666;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            transition: all 0.3s;
+        }
+        .nav-tabs.card-header-tabs .nav-link:hover {
+            color: #ef7f1a;
+            border-bottom: 2px solid #ef7f1a;
+            background: rgba(239, 127, 26, 0.05);
+        }
+        .nav-tabs.card-header-tabs .nav-link.active {
+            color: #ef7f1a !important;
+            background-color: transparent !important;
+            border-bottom: 2px solid #ef7f1a !important;
+        }
+    </style>
+
     <form action="{{ route('admin.candidates.update', $candidate) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')

@@ -42,6 +42,9 @@
                         <a href="{{ route('candidate.subscriptions.index') }}">
                             <i class="bi bi-patch-check-fill"></i> Subscription
                         </a>
+                        <a href="{{ route('candidate.profile.index', ['active_tab' => 'settings']) }}">
+                            <i class="bi bi-shield-lock-fill"></i> Security
+                        </a>
                         <div class="nav-divider"></div>
                         <a href="{{ route('logout') }}" class="logout"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

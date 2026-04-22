@@ -48,7 +48,7 @@
         .sidebar-logo {
             max-height: 40px;
         }
-        .nav-link {
+        .sidebar .nav-link {
             padding: 12px 25px;
             color: var(--text-muted) !important;
             display: flex;
@@ -58,22 +58,22 @@
             transition: all 0.2s;
             border-left: 3px solid transparent;
         }
-        .nav-link i {
+        .sidebar .nav-link i {
             width: 20px;
             margin-right: 15px;
             font-size: 16px;
             text-align: center;
         }
-        .nav-link:hover {
+        .sidebar .nav-link:hover {
             color: #fff !important;
             background-color: var(--sidebar-item-hover);
         }
-        .nav-link.active {
+        .sidebar .nav-link.active {
             color: #fff !important;
             background-color: rgba(239, 127, 26, 0.1);
             border-left-color: var(--brand-primary);
         }
-        .nav-link.active i {
+        .sidebar .nav-link.active i {
             color: var(--brand-primary);
         }
         .sidebar-heading {
@@ -281,6 +281,9 @@
                             <h6 class="sidebar-heading">Finance</h6>
                             <a class="nav-link {{ request()->routeIs('accountant.dashboard') ? 'active' : '' }}" href="{{ route('accountant.dashboard') }}">
                                 <i class="bi bi-graph-up-arrow"></i> Analytics
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
+                                <i class="bi bi-patch-check"></i> Verify Payments
                             </a>
                             <a class="nav-link" href="#">
                                 <i class="bi bi-receipt-cutoff"></i> Invoices

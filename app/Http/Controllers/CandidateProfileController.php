@@ -238,6 +238,21 @@ class CandidateProfileController extends Controller
         return redirect()->back()->with('success', 'Resume uploaded successfully.');
     }
 
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|current_password',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = auth()->user();
+        $user->update([
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password)
+        ]);
+
+        return redirect()->route('candidate.profile.index', ['active_tab' => 'settings'])->with('success', 'Password updated successfully.');
+    }
+
     private function calculateCompletion()
     {
         $user = auth()->user();
