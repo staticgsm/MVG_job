@@ -38,6 +38,12 @@
 
                 <h4 class="fw-600 text-dark-gray mb-20px">6. Governing Law</h4>
                 <p>Your use of this website and any dispute arising out of such use of the website is subject to the laws of India and specifically the jurisdiction of courts in Nashik, Maharashtra.</p>
+
+                <h4 class="fw-600 text-dark-gray mb-20px">7. Nature of Services</h4>
+                <p>MVG Company provides staffing solutions to corporate clients. For candidates, we may offer optional support services such as resume assistance, interview guidance, and onboarding support.</p>
+
+<p>We do not guarantee job placement, and no fees are charged in exchange for employment.
+</p>
             </div>
         </div>
     </div>

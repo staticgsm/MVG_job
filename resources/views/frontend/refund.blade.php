@@ -28,7 +28,11 @@
                 <p>For subscription-based services, refunds are generally not provided once the subscription period has started. However, you can cancel your subscription at any time to prevent future billing.</p>
 
                 <h4 class="fw-600 text-dark-gray mb-20px">3. Service Fees</h4>
-                <p>Registration or processing fees for job applications or manpower services are generally non-refundable. Please review the specific terms provided at the time of payment.</p>
+                <p>Service fees collected from candidates are strictly for optional value-added services such as profile evaluation, documentation assistance, and interview preparation support.</p>
+
+                <p>These fees are not charged for job placement or job guarantees.</p>
+
+                <p>Refunds may be considered if the service has not been initiated or delivered, subject to review.</p>
 
                 <h4 class="fw-600 text-dark-gray mb-20px">4. Refund Process</h4>
                 <p>To request a refund, please contact our support team at <a href="mailto:info@mvgcompany.in">info@mvgcompany.in</a> with your transaction details and reason for the request. We will review your request and get back to you within 7-10 business days.</p>
